@@ -1,0 +1,836 @@
+/* ============================================================================
+   components.css — styling for the reusable primitives.
+   Every value here is copied from the source kit's Tailwind classes, resolved
+   to the literal it compiles to (p-5 → 20px, gap-1.5 → 6px, size-7 → 28px).
+   No colour appears except through a token.
+   ========================================================================= */
+
+/* --- Button -------------------------------------------------------------- */
+.ms-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  gap: 8px;
+  border: 1px solid transparent;
+  /* Fully round, matching the pill nav and the hero's actions. --radius-pill
+     is a large fixed value, so it resolves to a true capsule at every control
+     height without each size having to name its own radius. */
+  border-radius: var(--radius-pill);
+  font-family: var(--font-sans);
+  font-weight: 500;
+  white-space: nowrap;
+  user-select: none;
+  cursor: pointer;
+  background: none;
+  transition-property:
+    color, background-color, border-color, box-shadow, transform, opacity;
+  transition-timing-function: var(--ease-out);
+  transition-duration: var(--duration-control);
+}
+/* A single pixel of travel on press. Enough to feel mechanical, not enough to
+   read as movement — and transform is what reduced-motion users lose first. */
+.ms-btn:active:not(:disabled) {
+  transform: translateY(1px);
+}
+.ms-btn:disabled {
+  pointer-events: none;
+  opacity: 0.5;
+}
+.ms-btn svg {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+  pointer-events: none;
+}
+
+/* Green is the only large colour block the system allows, and only at control
+   scale — never as a page or section background. */
+.ms-btn--primary {
+  background-color: hsl(var(--primary));
+  color: hsl(var(--primary-foreground));
+}
+.ms-btn--primary:hover:not(:disabled) {
+  background-color: hsl(var(--primary-hover));
+  color: hsl(var(--primary-foreground));
+}
+/* Neutral at rest, sage on hover. Sage is the system's hover fill. */
+.ms-btn--secondary {
+  border-color: hsl(var(--border));
+  background-color: hsl(var(--surface));
+  color: hsl(var(--foreground));
+}
+.ms-btn--secondary:hover:not(:disabled) {
+  background-color: hsl(var(--secondary));
+  color: hsl(var(--foreground));
+}
+.ms-btn--ghost {
+  color: hsl(var(--foreground));
+}
+.ms-btn--ghost:hover:not(:disabled) {
+  background-color: hsl(var(--secondary));
+  color: hsl(var(--foreground));
+}
+.ms-btn--destructive {
+  background-color: hsl(var(--destructive));
+  color: hsl(var(--destructive-foreground));
+}
+.ms-btn--destructive:hover:not(:disabled) {
+  background-color: hsl(var(--destructive-hover));
+  color: hsl(var(--destructive-foreground));
+}
+
+.ms-btn--sm {
+  height: var(--control-h-sm);
+  padding: 0 14px;
+  font-size: var(--text-small);
+  line-height: var(--text-small--line-height);
+}
+.ms-btn--md {
+  height: var(--control-h-md);
+  padding: 0 18px;
+  font-size: var(--text-small);
+  line-height: var(--text-small--line-height);
+}
+.ms-btn--lg {
+  height: var(--control-h-lg);
+  padding: 0 28px;
+  font-size: var(--text-body);
+  line-height: var(--text-body--line-height);
+}
+.ms-btn--icon {
+  height: var(--control-h-md);
+  width: var(--control-h-md);
+  padding: 0;
+}
+
+/* --- Input --------------------------------------------------------------- */
+/* Border is --input, not --border: a field boundary is a UI component under
+   WCAG 1.4.11 and owes 3:1, which the decorative hairline does not meet. */
+.ms-input {
+  height: var(--control-h-md);
+  width: 100%;
+  border: 1px solid hsl(var(--input));
+  border-radius: var(--radius-md);
+  background-color: hsl(var(--surface));
+  padding: 8px 12px;
+  font-size: var(--text-body);
+  color: hsl(var(--foreground));
+  transition:
+    border-color var(--duration-control) var(--ease-out),
+    box-shadow var(--duration-control) var(--ease-out);
+}
+.ms-input::placeholder {
+  color: hsl(var(--muted-foreground));
+}
+.ms-input:focus-visible {
+  border-color: hsl(var(--ring));
+}
+.ms-input:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+/* Colour is not the only signal: pair this with a message referenced by
+   aria-describedby at the call site. */
+.ms-input[aria-invalid="true"] {
+  border-color: hsl(var(--destructive));
+}
+.ms-input[aria-invalid="true"]:focus-visible {
+  outline-color: hsl(var(--destructive));
+}
+textarea.ms-input {
+  height: auto;
+  min-height: 96px;
+  line-height: var(--text-body--line-height);
+  resize: vertical;
+}
+
+/* --- Card ---------------------------------------------------------------- */
+.ms-card {
+  border: 1px solid hsl(var(--border));
+  border-radius: var(--radius-lg);
+  background-color: hsl(var(--card));
+  color: hsl(var(--card-foreground));
+  box-shadow: var(--shadow-xs);
+}
+.ms-card__header {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 20px;
+}
+.ms-card__title {
+  font-family: var(--font-display);
+  font-variation-settings: var(--font-display-variation);
+  font-size: var(--text-h3);
+  line-height: var(--text-h3--line-height);
+  letter-spacing: var(--text-h3--letter-spacing);
+  font-weight: var(--text-h3--font-weight);
+  color: hsl(var(--foreground));
+  margin: 0;
+}
+.ms-card__desc {
+  font-size: var(--text-small);
+  line-height: var(--text-small--line-height);
+  color: hsl(var(--muted-foreground));
+}
+.ms-card__content {
+  padding: 0 20px 20px;
+}
+.ms-card__footer {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 0 20px 20px;
+}
+
+/* --- Badge --------------------------------------------------------------- */
+.ms-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border: 1px solid transparent;
+  border-radius: var(--radius-full);
+  padding: 2px 10px;
+  font-size: var(--text-caption);
+  line-height: var(--text-caption--line-height);
+  letter-spacing: var(--text-caption--letter-spacing);
+  font-weight: 500;
+  white-space: nowrap;
+}
+.ms-badge svg {
+  width: 12px;
+  height: 12px;
+  flex-shrink: 0;
+}
+/* Sage fill, ink label. The default badge in the system. */
+.ms-badge--neutral {
+  background-color: hsl(var(--secondary));
+  color: hsl(var(--foreground));
+}
+.ms-badge--outline {
+  border-color: hsl(var(--border));
+  background-color: hsl(var(--surface));
+  color: hsl(var(--muted-foreground));
+}
+.ms-badge--primary {
+  background-color: hsl(var(--primary));
+  color: hsl(var(--primary-foreground));
+}
+/* Lime fill with #14532D text — the only legal use of lime outside a bar. */
+.ms-badge--funded {
+  background-color: hsl(var(--accent));
+  color: hsl(var(--accent-foreground));
+}
+/* Amber is a fill here, not a label colour: amber text on sage is 4.05:1 and
+   would fail. As a fill with its own foreground it is 4.75:1. */
+.ms-badge--warning {
+  background-color: hsl(var(--warning));
+  color: hsl(var(--warning-foreground));
+}
+.ms-badge--destructive {
+  background-color: hsl(var(--destructive));
+  color: hsl(var(--destructive-foreground));
+}
+.ms-badge__dot {
+  width: 6px;
+  height: 6px;
+  border-radius: var(--radius-full);
+  flex-shrink: 0;
+}
+
+/* --- Dialog -------------------------------------------------------------- */
+/* A flat near-black scrim, not a blur: no glassmorphism in this system.
+   --scrim rather than --foreground, which is near-white in dark mode. */
+.ms-dialog__overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  background-color: hsl(var(--scrim) / 0.5);
+  animation: overlay-in var(--duration-surface) var(--ease-out);
+}
+.ms-dialog__content {
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 50;
+  width: 100%;
+  max-width: 32rem;
+  border: 1px solid hsl(var(--border));
+  border-radius: var(--radius-lg);
+  background-color: hsl(var(--popover));
+  color: hsl(var(--popover-foreground));
+  padding: 24px;
+  box-shadow: var(--shadow-lg);
+  animation: surface-in var(--duration-surface) var(--ease-out);
+}
+.ms-dialog__close {
+  position: absolute;
+  right: 16px;
+  top: 16px;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  border-radius: var(--radius-md);
+  padding: 4px;
+  color: hsl(var(--muted-foreground));
+  transition:
+    color var(--duration-control) var(--ease-out),
+    background-color var(--duration-control) var(--ease-out);
+}
+.ms-dialog__close:hover {
+  background-color: hsl(var(--secondary));
+  color: hsl(var(--foreground));
+}
+.ms-dialog__close svg {
+  width: 16px;
+  height: 16px;
+}
+.ms-dialog__header {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding-bottom: 16px;
+}
+.ms-dialog__title {
+  font-family: var(--font-display);
+  font-variation-settings: var(--font-display-variation);
+  font-size: var(--text-h3);
+  line-height: var(--text-h3--line-height);
+  letter-spacing: var(--text-h3--letter-spacing);
+  font-weight: var(--text-h3--font-weight);
+  margin: 0;
+  padding-right: 32px;
+}
+.ms-dialog__desc {
+  font-size: var(--text-body);
+  line-height: var(--text-body--line-height);
+  color: hsl(var(--muted-foreground));
+}
+.ms-dialog__footer {
+  display: flex;
+  gap: 8px;
+  padding-top: 24px;
+  justify-content: flex-end;
+}
+
+/* --- Dropdown menu ------------------------------------------------------- */
+.ms-menu {
+  position: relative;
+  display: inline-flex;
+}
+/* NOTE: stock shadcn highlights rows with --accent. Here --accent is lime,
+   which is fill-only and must never sit behind text. Rows highlight with
+   --secondary (sage) instead: 13.67:1 against ink. */
+.ms-menu__content {
+  position: absolute;
+  z-index: 50;
+  min-width: 10rem;
+  overflow: hidden;
+  border: 1px solid hsl(var(--border));
+  border-radius: var(--radius-lg);
+  background-color: hsl(var(--popover));
+  color: hsl(var(--popover-foreground));
+  padding: 4px;
+  box-shadow: var(--shadow-md);
+  animation: surface-in var(--duration-surface) var(--ease-out);
+}
+.ms-menu__content[data-side="bottom-start"] {
+  top: calc(100% + 6px);
+  left: 0;
+}
+.ms-menu__content[data-side="bottom-end"] {
+  top: calc(100% + 6px);
+  right: 0;
+}
+.ms-menu__item {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  border: 0;
+  background: none;
+  text-align: left;
+  cursor: default;
+  user-select: none;
+  border-radius: var(--radius-sm);
+  padding: 6px 8px;
+  font-size: var(--text-small);
+  color: hsl(var(--foreground));
+  outline: none;
+  transition: background-color var(--duration-control) var(--ease-out);
+}
+.ms-menu__item:hover,
+.ms-menu__item[data-highlighted] {
+  background-color: hsl(var(--secondary));
+}
+.ms-menu__item[data-disabled] {
+  pointer-events: none;
+  opacity: 0.5;
+}
+.ms-menu__item svg {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+  color: hsl(var(--muted-foreground));
+}
+.ms-menu__item--inset {
+  padding-left: 32px;
+}
+.ms-menu__check {
+  position: absolute;
+  left: 8px;
+  display: flex;
+  width: 16px;
+  height: 16px;
+  align-items: center;
+  justify-content: center;
+}
+.ms-menu__check svg {
+  color: hsl(var(--primary));
+}
+.ms-menu__label {
+  padding: 6px 8px;
+  font-size: var(--text-caption);
+  letter-spacing: var(--text-caption--letter-spacing);
+  font-weight: 500;
+  color: hsl(var(--muted-foreground));
+}
+.ms-menu__sep {
+  margin: 4px -4px;
+  height: 1px;
+  background-color: hsl(var(--border));
+}
+
+/* --- Tabs ---------------------------------------------------------------- */
+.ms-tabs__list {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  border-radius: var(--radius-full);
+  background-color: hsl(var(--secondary));
+  padding: 4px;
+  color: hsl(var(--muted-foreground));
+}
+/* Active tab is a surface pill on a sage track, not a green block — green never
+   fills a large area, and a tab strip repeated across a page adds up. */
+.ms-tabs__trigger {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  border-radius: var(--radius-full);
+  padding: 6px 14px;
+  font-size: var(--text-small);
+  font-weight: 500;
+  color: inherit;
+  transition:
+    background-color var(--duration-control) var(--ease-out),
+    color var(--duration-control) var(--ease-out),
+    box-shadow var(--duration-control) var(--ease-out);
+}
+.ms-tabs__trigger[data-state="active"] {
+  background-color: hsl(var(--surface));
+  color: hsl(var(--foreground));
+  box-shadow: var(--shadow-xs);
+}
+.ms-tabs__trigger:disabled {
+  pointer-events: none;
+  opacity: 0.5;
+}
+.ms-tabs__content {
+  margin-top: 16px;
+}
+
+/* --- Tooltip ------------------------------------------------------------- */
+.ms-tooltip {
+  position: relative;
+  display: inline-flex;
+}
+/* Inverted: ink ground with canvas text (16.04:1). A tooltip is transient, so
+   it reads as a different surface rather than another card. */
+.ms-tooltip__content {
+  position: absolute;
+  z-index: 50;
+  max-width: 20rem;
+  width: max-content;
+  bottom: calc(100% + 6px);
+  left: 50%;
+  transform: translateX(-50%);
+  border-radius: var(--radius-md);
+  background-color: hsl(var(--foreground));
+  padding: 6px 10px;
+  font-size: var(--text-caption);
+  line-height: var(--text-caption--line-height);
+  color: hsl(var(--background));
+  box-shadow: var(--shadow-md);
+  animation: surface-in var(--duration-surface) var(--ease-out);
+}
+
+/* --- Skeleton ------------------------------------------------------------ */
+/* Sage block, pulsing on opacity only. Always give a skeleton the same box as
+   the content it stands in for, or it defeats its own purpose. */
+.ms-skeleton {
+  border-radius: var(--radius-md);
+  background-color: hsl(var(--secondary));
+  animation: skeleton-pulse 1.8s var(--ease-out) infinite;
+}
+
+/* --- FundingProgress ----------------------------------------------------- */
+.ms-progress {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.ms-progress__figures {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+}
+.ms-progress__raised {
+  font-size: var(--text-h3);
+  line-height: var(--text-h3--line-height);
+  font-weight: 600;
+  color: hsl(var(--foreground));
+}
+.ms-progress__goal {
+  font-size: var(--text-small);
+  color: hsl(var(--muted-foreground));
+}
+.ms-progress__track {
+  width: 100%;
+  overflow: hidden;
+  border-radius: var(--radius-full);
+  background-color: hsl(var(--progress-track));
+  height: 10px;
+}
+.ms-progress__track--sm {
+  height: 6px;
+}
+.ms-progress__fill {
+  height: 100%;
+  border-radius: var(--radius-full);
+  background-color: hsl(var(--progress-fill));
+}
+
+/* --- MilestoneTracker ---------------------------------------------------- */
+.ms-track {
+  display: flex;
+  width: 100%;
+  align-items: flex-start;
+}
+.ms-track__step {
+  position: relative;
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 8px;
+}
+.ms-track__step--grow {
+  flex: 1 1 0%;
+}
+.ms-track__row {
+  display: flex;
+  align-items: center;
+}
+.ms-track__node {
+  display: flex;
+  width: 28px;
+  height: 28px;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-full);
+  border: 2px solid transparent;
+}
+.ms-track__node--pending {
+  border-color: hsl(var(--milestone-pending));
+  background-color: hsl(var(--surface));
+}
+.ms-track__node--active {
+  border-color: hsl(var(--milestone-active));
+  background-color: hsl(var(--surface));
+}
+.ms-track__node--released {
+  background-color: hsl(var(--milestone-released));
+}
+.ms-track__node--disputed {
+  background-color: hsl(var(--milestone-disputed));
+}
+.ms-track__node--released svg {
+  width: 16px;
+  height: 16px;
+  color: hsl(var(--accent-foreground));
+}
+.ms-track__node--disputed svg {
+  width: 14px;
+  height: 14px;
+  color: hsl(var(--destructive-foreground));
+}
+.ms-track__pip {
+  width: 10px;
+  height: 10px;
+  border-radius: var(--radius-full);
+  background-color: hsl(var(--primary));
+}
+.ms-track__bar {
+  margin: 0 8px;
+  height: 2px;
+  flex: 1 1 0%;
+  border-radius: var(--radius-full);
+}
+.ms-track__bar--pending {
+  background-color: hsl(var(--milestone-pending));
+}
+.ms-track__bar--active {
+  background-color: hsl(var(--milestone-active));
+}
+.ms-track__bar--released {
+  background-color: hsl(var(--milestone-released));
+}
+.ms-track__bar--disputed {
+  background-color: hsl(var(--milestone-disputed));
+}
+.ms-track__meta {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding-right: 16px;
+}
+.ms-track__label {
+  font-size: var(--text-small);
+  font-weight: 500;
+  color: hsl(var(--foreground));
+}
+.ms-track__label--muted {
+  color: hsl(var(--muted-foreground));
+}
+.ms-track__state {
+  font-size: var(--text-caption);
+  letter-spacing: var(--text-caption--letter-spacing);
+  color: hsl(var(--muted-foreground));
+}
+
+/* --- CampaignCard -------------------------------------------------------- */
+.ms-campaign {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+.ms-campaign--link {
+  transition:
+    transform var(--duration-surface) var(--ease-out),
+    box-shadow var(--duration-surface) var(--ease-out);
+}
+/* Half a step of lift and one shadow rung. Cast in --shadow-color, so this
+   never becomes a green glow. */
+.ms-campaign--link:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+.ms-campaign__media {
+  aspect-ratio: 16 / 10;
+  width: 100%;
+}
+.ms-campaign__media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform var(--duration-surface) var(--ease-out);
+}
+.ms-campaign--link:hover .ms-campaign__media img {
+  transform: scale(1.03);
+}
+.ms-campaign__body {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  gap: 16px;
+  padding: 20px;
+}
+.ms-campaign__head {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.ms-campaign__title {
+  font-family: var(--font-display);
+  font-variation-settings: var(--font-display-variation);
+  font-size: var(--text-h3);
+  font-weight: var(--text-h3--font-weight);
+  letter-spacing: var(--text-h3--letter-spacing);
+  line-height: 1.2;
+  margin: 0;
+}
+.ms-campaign__title a,
+.ms-campaign__title span {
+  color: hsl(var(--foreground));
+  text-decoration: none;
+  transition: color var(--duration-control) var(--ease-out);
+}
+.ms-campaign--link:hover .ms-campaign__title a {
+  color: hsl(var(--primary));
+}
+.ms-campaign__creator {
+  font-size: var(--text-small);
+  color: hsl(var(--muted-foreground));
+}
+.ms-campaign__creator strong {
+  font-weight: 400;
+  color: hsl(var(--foreground));
+}
+.ms-campaign__foot {
+  margin-top: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.ms-campaign__stats {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+/* --- AmountSelector ------------------------------------------------------ */
+.ms-amounts {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.ms-amounts__grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+}
+.ms-amounts__opt {
+  position: relative;
+}
+.ms-amounts__opt input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  pointer-events: none;
+}
+.ms-amounts__tier {
+  display: flex;
+  cursor: pointer;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  text-align: center;
+  border: 1px solid hsl(var(--input));
+  border-radius: var(--radius-md);
+  background-color: hsl(var(--surface));
+  padding: 12px;
+  transition:
+    background-color var(--duration-control) var(--ease-out),
+    border-color var(--duration-control) var(--ease-out);
+}
+.ms-amounts__tier:hover {
+  background-color: hsl(var(--secondary));
+}
+.ms-amounts__opt input:checked + .ms-amounts__tier {
+  border-color: hsl(var(--primary));
+  background-color: hsl(var(--secondary));
+}
+.ms-amounts__opt input:focus-visible + .ms-amounts__tier {
+  outline: 2px solid hsl(var(--ring));
+  outline-offset: 2px;
+}
+.ms-amounts__value {
+  font-size: var(--text-body);
+  font-weight: 600;
+  color: hsl(var(--foreground));
+}
+.ms-amounts__note {
+  font-size: var(--text-caption);
+  color: hsl(var(--muted-foreground));
+}
+.ms-amounts__custom {
+  display: flex;
+  cursor: pointer;
+  align-items: center;
+  gap: 12px;
+  border: 1px solid hsl(var(--input));
+  border-radius: var(--radius-md);
+  background-color: hsl(var(--surface));
+  padding: 10px 12px;
+  transition:
+    background-color var(--duration-control) var(--ease-out),
+    border-color var(--duration-control) var(--ease-out);
+}
+.ms-amounts__custom:hover {
+  background-color: hsl(var(--secondary));
+}
+.ms-amounts__opt input:checked + .ms-amounts__custom {
+  border-color: hsl(var(--primary));
+  background-color: hsl(var(--surface));
+}
+.ms-amounts__custom > span {
+  font-size: var(--text-small);
+  color: hsl(var(--muted-foreground));
+}
+.ms-amounts__custom input[type="text"] {
+  width: 100%;
+  min-width: 0;
+  border: 0;
+  background: transparent;
+  font-size: var(--text-body);
+  color: hsl(var(--foreground));
+  outline: none;
+}
+.ms-amounts__custom input[type="text"]::placeholder {
+  color: hsl(var(--muted-foreground));
+}
+
+/* --- BackerStack --------------------------------------------------------- */
+.ms-backers {
+  display: flex;
+  align-items: center;
+}
+.ms-backers__list {
+  display: flex;
+  align-items: center;
+}
+.ms-backers__face,
+.ms-backers__more {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  margin-left: -8px;
+  border-radius: var(--radius-full);
+  background-color: hsl(var(--secondary));
+  color: hsl(var(--foreground));
+  box-shadow: 0 0 0 2px hsl(var(--card));
+  font-weight: 500;
+}
+.ms-backers__list > .ms-backers__face:first-child {
+  margin-left: 0;
+}
+.ms-backers--md .ms-backers__face,
+.ms-backers--md .ms-backers__more {
+  width: 32px;
+  height: 32px;
+  font-size: var(--text-caption);
+}
+.ms-backers--sm .ms-backers__face,
+.ms-backers--sm .ms-backers__more {
+  width: 24px;
+  height: 24px;
+  font-size: 10px;
+}
+.ms-backers__face img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}

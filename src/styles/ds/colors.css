@@ -1,0 +1,229 @@
+/* ============================================================================
+   colors.css — Milestone palette.
+   Ported verbatim from the source kit's src/styles/tokens.css + theme.css.
+   Values are HSL channel triplets (no hsl() wrapper) so they compose with
+   opacity modifiers; --color-* are the resolved colours for direct use.
+
+   The palette is fixed. Never write a hex in component code.
+   Structure: 1 light primitives · 2 dark primitives · 3 slots (both scopes).
+   Slots are declared once per scope, not as `:root, .dark`: a custom property
+   holding var() resolves where it is declared and then inherits as a resolved
+   value, so a slot declared only on :root would keep the light value inside
+   .dark no matter what .dark does to the primitive.
+   ========================================================================= */
+
+/* --- 1. Light primitives ------------------------------------------------- */
+:root {
+  --canvas: 45 33.3% 95.3%; /* @kind color */ /* #F7F5EF  page background */
+  --surface: 50 50% 97.6%; /* @kind color */ /* #FCFBF6  cards, inputs, modals */
+  --hairline: 51 18.3% 86.1%; /* @kind color */ /* #E2E0D5  borders, dividers */
+  --sage: 86 32.4% 86.1%; /* @kind color */ /* #DDE7D0  tracks, badge fills, hover */
+  --ink: 24 9.8% 10%; /* @kind color */ /* #1C1917  headings, body */
+  --ink-muted: 33 5.5% 32.4%; /* @kind color */ /* #57534E  labels, metadata */
+  /* Input borders only. --hairline is 1.21:1 on canvas — fine for a divider,
+     non-conformant for a field boundary, which WCAG 1.4.11 holds to 3:1. This
+     is --ink-muted lifted to the lightest value still clearing 3:1 on canvas
+     and surface (3.22:1 / 3.38:1). */
+  --field: 33 5.5% 53%; /* @kind color */ /* #8E8881  input borders */
+
+  --green: 143 64.2% 24.1%; /* @kind color */ /* #166534  buttons, links, wordmark */
+  --green-hover: 144 61.2% 20.2%; /* @kind color */ /* #14532D */
+  --green-on: 45 33.3% 95.3%; /* @kind color */ /* #F7F5EF  text/icons on green */
+
+  /* FILL ONLY. 1.38:1 on canvas, 1.51:1 on white — never text, border, icon.
+     The only legal foreground on this colour is --lime-on. */
+  --lime: 82.7 77.97% 55.49%; /* @kind color */ /* #A3E635  progress fill, funded */
+  --lime-on: 144 61.2% 20.2%; /* @kind color */ /* #14532D  text on lime, always */
+
+  --amber: 17.5 88.35% 40.39%; /* @kind color */ /* #C2410C  deadline, expiring */
+  --amber-on: 45 33.3% 95.3%; /* @kind color */ /* #F7F5EF */
+  --crimson: 343.4 79.66% 34.71%; /* @kind color */ /* #9F1239  failed, refunded */
+  --crimson-hover: 343.4 79.66% 28%; /* @kind color */ /* #800F2E  destructive button hover */
+  --crimson-on: 45 33.3% 95.3%; /* @kind color */ /* #F7F5EF */
+
+  /* Elevation is always cast in near-black, never in --ink: in dark mode --ink
+     is near-white, and a near-white shadow is a glow. */
+  --shadow-color: 24 9.8% 10%; /* @kind color */ /* #1C1917 */
+}
+
+/* --- 2. Dark primitives -------------------------------------------------- */
+.dark {
+  --canvas: 152 44.2% 8.4%; /* @kind color */ /* #0C1F16 */
+  --surface: 151 39% 11.6%; /* @kind color */ /* #12291E */
+  --hairline: 144 21.7% 18%; /* @kind color */ /* #24382C */
+  --ink: 84 21.7% 91%; /* @kind color */ /* #E9EDE3 */
+  --ink-muted: 112 12.6% 64.1%; /* @kind color */ /* #9BAF98 */
+  --field: 112 12.6% 42%; /* @kind color */ /* #61795E  3.60:1 canvas, 3.23:1 surface */
+  /* No dark sage was specified in the source kit. Tracks, badge fills and hover
+     fall back to --hairline, the only dark token that separates from --surface.
+     Flagged for brand sign-off. */
+  --sage: var(--hairline); /* @kind color */
+
+  --green: 82 84.5% 67.1%; /* @kind color */ /* #BEF264 */
+  --green-on: 152 44.2% 8.4%; /* @kind color */ /* #0C1F16 */
+  --green-hover: 82 84.5% 74%; /* @kind color */ /* #CCF585  #BEF264 lifted 6.9% in L */
+
+  --lime: 82.7 77.97% 55.49%; /* @kind color */ /* #A3E635  identical in both themes */
+  --lime-on: 144 61.2% 20.2%; /* @kind color */ /* #14532D  identical in both themes */
+
+  --amber: 27 96% 61%; /* @kind color */ /* #FB923C */
+  --amber-on: 152 44.2% 8.4%; /* @kind color */ /* #0C1F16 */
+  --crimson: 351.3 94.52% 71.37%; /* @kind color */ /* #FB7185 */
+  --crimson-hover: 351.3 94.52% 79%; /* @kind color */ /* #FC97A6 */
+  --crimson-on: 152 44.2% 8.4%; /* @kind color */ /* #0C1F16 */
+
+  /* A deepened canvas rather than pure black, so elevation reads as depth in
+     the same hue family instead of a grey smudge. */
+  --shadow-color: 152 44.2% 4%; /* @kind color */ /* #060F0B */
+}
+
+/* --- 3a. Light slots ----------------------------------------------------- */
+:root {
+  --background: var(--canvas);
+  --foreground: var(--ink);
+  --card: var(--surface);
+  --card-foreground: var(--ink);
+  --popover: var(--surface);
+  --popover-foreground: var(--ink);
+  --primary: var(--green);
+  --primary-foreground: var(--green-on);
+  --primary-hover: var(--green-hover);
+  --secondary: var(--sage);
+  --secondary-foreground: var(--green-hover);
+  --muted: var(--sage);
+  --muted-foreground: var(--ink-muted);
+  /* NOTE: stock shadcn uses --accent as the menu-row hover. The brand reserves
+     this colour for progress fill and the funded state only. Restyled
+     primitives hover on --secondary (sage) and never emit --accent as hover. */
+  --accent: var(--lime);
+  --accent-foreground: var(--lime-on);
+  --destructive: var(--crimson);
+  --destructive-foreground: var(--crimson-on);
+  --destructive-hover: var(--crimson-hover);
+  --warning: var(--amber);
+  --warning-foreground: var(--amber-on);
+  --border: var(--hairline);
+  --input: var(--field);
+  --ring: var(--green);
+  /* Modal scrim. Deliberately NOT --foreground: in dark that is near-white and
+     would lighten the page instead of dimming it. */
+  --scrim: var(--shadow-color);
+
+  /* Domain slots */
+  --progress-track: var(--sage);
+  --progress-fill: var(--lime);
+  --progress-fill-on: var(--lime-on);
+  --milestone-pending: var(--hairline);
+  --milestone-active: var(--green);
+  --milestone-released: var(--lime);
+  --milestone-disputed: var(--crimson);
+
+  /* Resolved colours. Use these in CSS and inline styles. */
+  --color-background: hsl(var(--background));
+  --color-foreground: hsl(var(--foreground));
+  --color-card: hsl(var(--card));
+  --color-card-foreground: hsl(var(--card-foreground));
+  --color-popover: hsl(var(--popover));
+  --color-popover-foreground: hsl(var(--popover-foreground));
+  --color-primary: hsl(var(--primary));
+  --color-primary-foreground: hsl(var(--primary-foreground));
+  --color-primary-hover: hsl(var(--primary-hover));
+  --color-secondary: hsl(var(--secondary));
+  --color-secondary-foreground: hsl(var(--secondary-foreground));
+  --color-muted: hsl(var(--muted));
+  --color-muted-foreground: hsl(var(--muted-foreground));
+  --color-accent: hsl(var(--accent));
+  --color-accent-foreground: hsl(var(--accent-foreground));
+  --color-destructive: hsl(var(--destructive));
+  --color-destructive-foreground: hsl(var(--destructive-foreground));
+  --color-destructive-hover: hsl(var(--destructive-hover));
+  --color-warning: hsl(var(--warning));
+  --color-warning-foreground: hsl(var(--warning-foreground));
+  --color-border: hsl(var(--border));
+  --color-input: hsl(var(--input));
+  --color-ring: hsl(var(--ring));
+  --color-scrim: hsl(var(--scrim));
+  --color-canvas: hsl(var(--canvas));
+  --color-surface: hsl(var(--surface));
+  --color-sage: hsl(var(--sage));
+  --color-progress-track: hsl(var(--progress-track));
+  --color-progress-fill: hsl(var(--progress-fill));
+  --color-progress-fill-foreground: hsl(var(--progress-fill-on));
+  --color-milestone-pending: hsl(var(--milestone-pending));
+  --color-milestone-active: hsl(var(--milestone-active));
+  --color-milestone-released: hsl(var(--milestone-released));
+  --color-milestone-disputed: hsl(var(--milestone-disputed));
+}
+
+/* --- 3b. Dark slots — re-resolved in this scope -------------------------- */
+.dark {
+  --background: var(--canvas);
+  --foreground: var(--ink);
+  --card: var(--surface);
+  --card-foreground: var(--ink);
+  --popover: var(--surface);
+  --popover-foreground: var(--ink);
+  --primary: var(--green);
+  --primary-foreground: var(--green-on);
+  --primary-hover: var(--green-hover);
+  --secondary: var(--sage);
+  /* In dark, --green-hover is a pale lime. A secondary button label wants ink,
+     not lime, so this slot does not follow its primitive here. */
+  --secondary-foreground: var(--ink);
+  --muted: var(--sage);
+  --muted-foreground: var(--ink-muted);
+  --accent: var(--lime);
+  --accent-foreground: var(--lime-on);
+  --destructive: var(--crimson);
+  --destructive-foreground: var(--crimson-on);
+  --destructive-hover: var(--crimson-hover);
+  --warning: var(--amber);
+  --warning-foreground: var(--amber-on);
+  --border: var(--hairline);
+  --input: var(--field);
+  --ring: var(--green);
+  --scrim: var(--shadow-color);
+
+  --progress-track: var(--sage);
+  --progress-fill: var(--lime);
+  --progress-fill-on: var(--lime-on);
+  --milestone-pending: var(--hairline);
+  --milestone-active: var(--green);
+  --milestone-released: var(--lime);
+  --milestone-disputed: var(--crimson);
+
+  --color-background: hsl(var(--background));
+  --color-foreground: hsl(var(--foreground));
+  --color-card: hsl(var(--card));
+  --color-card-foreground: hsl(var(--card-foreground));
+  --color-popover: hsl(var(--popover));
+  --color-popover-foreground: hsl(var(--popover-foreground));
+  --color-primary: hsl(var(--primary));
+  --color-primary-foreground: hsl(var(--primary-foreground));
+  --color-primary-hover: hsl(var(--primary-hover));
+  --color-secondary: hsl(var(--secondary));
+  --color-secondary-foreground: hsl(var(--secondary-foreground));
+  --color-muted: hsl(var(--muted));
+  --color-muted-foreground: hsl(var(--muted-foreground));
+  --color-accent: hsl(var(--accent));
+  --color-accent-foreground: hsl(var(--accent-foreground));
+  --color-destructive: hsl(var(--destructive));
+  --color-destructive-foreground: hsl(var(--destructive-foreground));
+  --color-destructive-hover: hsl(var(--destructive-hover));
+  --color-warning: hsl(var(--warning));
+  --color-warning-foreground: hsl(var(--warning-foreground));
+  --color-border: hsl(var(--border));
+  --color-input: hsl(var(--input));
+  --color-ring: hsl(var(--ring));
+  --color-scrim: hsl(var(--scrim));
+  --color-canvas: hsl(var(--canvas));
+  --color-surface: hsl(var(--surface));
+  --color-sage: hsl(var(--sage));
+  --color-progress-track: hsl(var(--progress-track));
+  --color-progress-fill: hsl(var(--progress-fill));
+  --color-progress-fill-foreground: hsl(var(--progress-fill-on));
+  --color-milestone-pending: hsl(var(--milestone-pending));
+  --color-milestone-active: hsl(var(--milestone-active));
+  --color-milestone-released: hsl(var(--milestone-released));
+  --color-milestone-disputed: hsl(var(--milestone-disputed));
+}

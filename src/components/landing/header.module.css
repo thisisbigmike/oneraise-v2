@@ -1,0 +1,163 @@
+/*
+ * header.module.css — what the landing/marketing header puts *inside* the
+ * pill. The pill chrome itself lives in ui/pill-nav.module.css, shared with
+ * every other top bar in the app.
+ *
+ * The `onPhoto` modifiers are the cream treatment for the landing hero, where
+ * the pill floats on a dark photograph. Header.tsx applies them alongside
+ * PillNav's overlay tone and drops them once the page scrolls past the hero.
+ *
+ * Colour note, as in pill-nav.module.css: `--canvas` is read as the system's
+ * "on dark" cream, which holds while nothing in src applies `.dark`.
+ */
+
+.navLink {
+  font-size: 14px;
+  color: hsl(var(--foreground));
+  text-decoration: none;
+  white-space: nowrap;
+  transition-property: color, opacity;
+  transition-timing-function: var(--ease-out);
+  transition-duration: var(--duration-control);
+}
+
+.navLink:hover {
+  color: hsl(var(--primary-hover));
+}
+
+.signIn {
+  display: inline-flex;
+  align-items: center;
+  height: 40px;
+  padding: 0 14px;
+  border-radius: var(--radius-pill);
+  font-size: 14px;
+  font-weight: 500;
+  color: hsl(var(--foreground));
+  text-decoration: none;
+  white-space: nowrap;
+  transition-property: color, opacity;
+  transition-timing-function: var(--ease-out);
+  transition-duration: var(--duration-control);
+}
+
+.signIn:hover {
+  color: hsl(var(--primary-hover));
+}
+
+.signUp {
+  display: inline-flex;
+  align-items: center;
+  height: 44px;
+  padding: 0 22px;
+  border-radius: var(--radius-pill);
+  font-size: 14px;
+  font-weight: 600;
+  background-color: hsl(var(--primary));
+  color: hsl(var(--primary-foreground));
+  text-decoration: none;
+  white-space: nowrap;
+  transition-property: background-color, color;
+  transition-timing-function: var(--ease-out);
+  transition-duration: var(--duration-control);
+}
+
+.signUp:hover {
+  background-color: hsl(var(--primary-hover));
+  color: hsl(var(--primary-foreground));
+}
+
+.signUpSm {
+  height: 38px;
+  padding: 0 16px;
+  font-size: 13px;
+}
+
+.menuButton {
+  display: inline-flex;
+  height: 38px;
+  width: 38px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  border: 1px solid hsl(var(--border));
+  background: transparent;
+  color: hsl(var(--foreground));
+  cursor: pointer;
+  padding: 0;
+  transition-property: color, border-color, background-color;
+  transition-timing-function: var(--ease-out);
+  transition-duration: var(--duration-control);
+}
+
+/* --- On the hero photograph ---------------------------------------------- */
+
+.onPhoto {
+  color: hsl(var(--canvas));
+}
+
+.onPhoto:hover {
+  color: hsl(var(--canvas));
+  opacity: 0.75;
+}
+
+/* Cream fill, green label — the same inversion the hero's lead action uses. */
+.signUpOnPhoto {
+  background-color: hsl(var(--canvas));
+  color: hsl(var(--primary));
+}
+
+.signUpOnPhoto:hover {
+  background-color: hsl(var(--surface));
+  color: hsl(var(--primary-hover));
+}
+
+.menuButtonOnPhoto {
+  color: hsl(var(--canvas));
+  border-color: hsl(var(--canvas) / 0.35);
+}
+
+/* --- Mobile menu ---------------------------------------------------------- */
+
+/*
+ * Fixed, not absolute. The pill is sticky on most pages and fixed on the
+ * landing hero; pinning the menu to the viewport puts it under the pill in
+ * both cases without the panel having to know which one it is. 70px is the
+ * mobile pill's offset (10) plus its height (52) plus a gap.
+ */
+.menu {
+  position: fixed;
+  z-index: 60;
+  top: 70px;
+  left: 14px;
+  right: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 8px;
+  border-radius: var(--radius-lg);
+  border: 1px solid hsl(var(--border));
+  background-color: hsl(var(--popover));
+  box-shadow: var(--shadow-lg);
+}
+
+.menuLink {
+  display: flex;
+  align-items: center;
+  height: 44px;
+  padding: 0 12px;
+  border-radius: var(--radius-md);
+  font-size: 14px;
+  color: hsl(var(--foreground));
+  text-decoration: none;
+}
+
+.menuLink:hover {
+  background-color: hsl(var(--secondary));
+}
+
+.menuDivider {
+  margin: 4px 4px 0;
+  padding-top: 4px;
+  border-top: 1px solid hsl(var(--border));
+}

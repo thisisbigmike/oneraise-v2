@@ -1,0 +1,9 @@
+/* Milestone design system — global entry point. Import list only. */
+@import "./colors.css";
+@import "./typography.css";
+@import "./spacing.css";
+@import "./elevation.css";
+@import "./motion.css";
+@import "./base.css";
+@import "./utilities.css";
+@import "./components.css";

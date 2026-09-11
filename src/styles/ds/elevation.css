@@ -1,0 +1,31 @@
+/* ============================================================================
+   elevation.css — cast in --shadow-color (near-black in both themes).
+   Never green, never a glow. Kept shallow on purpose: this system separates
+   surfaces with the hairline border first and shadow second.
+   ========================================================================= */
+
+:root {
+  --shadow-xs: 0 1px 2px 0 hsl(var(--shadow-color) / 0.05);
+  --shadow-sm:
+    0 1px 3px 0 hsl(var(--shadow-color) / 0.07),
+    0 1px 2px -1px hsl(var(--shadow-color) / 0.05);
+  --shadow-md:
+    0 4px 12px -2px hsl(var(--shadow-color) / 0.08),
+    0 2px 4px -2px hsl(var(--shadow-color) / 0.05);
+  --shadow-lg:
+    0 12px 28px -6px hsl(var(--shadow-color) / 0.12),
+    0 4px 8px -4px hsl(var(--shadow-color) / 0.06);
+}
+
+.dark {
+  --shadow-xs: 0 1px 2px 0 hsl(var(--shadow-color) / 0.05);
+  --shadow-sm:
+    0 1px 3px 0 hsl(var(--shadow-color) / 0.07),
+    0 1px 2px -1px hsl(var(--shadow-color) / 0.05);
+  --shadow-md:
+    0 4px 12px -2px hsl(var(--shadow-color) / 0.08),
+    0 2px 4px -2px hsl(var(--shadow-color) / 0.05);
+  --shadow-lg:
+    0 12px 28px -6px hsl(var(--shadow-color) / 0.12),
+    0 4px 8px -4px hsl(var(--shadow-color) / 0.06);
+}

@@ -1,0 +1,232 @@
+/*
+ * hero.module.css — full-bleed photographic hero.
+ *
+ * Hover, focus and media queries cannot be expressed in the inline styles the
+ * rest of the landing sections use, so this section keeps its own module.
+ *
+ * A NOTE ON COLOUR OVER THE PHOTO
+ * The scrim is dark in both themes, so anything sitting on it wants the
+ * system's "on dark" cream — which is what `--canvas` resolves to in the light
+ * scope, and what --green-on / --amber-on / --crimson-on all point at. This
+ * app never applies `.dark` (nothing in src sets that class), so reading
+ * `--canvas` is correct today. If dark mode is ever switched on, these need
+ * pinning to the light primitives instead: in `.dark`, --canvas is #0C1F16 and
+ * this text would go near-black on a dark photo.
+ */
+
+.hero {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  background-color: hsl(var(--shadow-color));
+
+  /* Vignette radii — overridden per breakpoint, see .heroMobile. */
+  --vignette-rx: 62%;
+  --vignette-ry: 58%;
+}
+
+.heroDesktop {
+  min-height: 620px;
+  max-height: 900px;
+  height: 100svh;
+}
+
+.heroMobile {
+  min-height: 540px;
+  max-height: 720px;
+  height: 100svh;
+
+  /*
+   * A narrow viewport makes the ellipse narrow too, and the lede then runs out
+   * toward its falloff — measured 4.85:1 at 390px against 6.67:1 on desktop,
+   * clearing 4.5 but with little to spare. Wider and flatter restores it.
+   */
+  --vignette-rx: 94%;
+  --vignette-ry: 46%;
+}
+
+.image {
+  object-fit: cover;
+  object-position: center;
+  z-index: -2;
+}
+
+/*
+ * Three stacked scrims, first listed painting on top.
+ *
+ *  · The vignette is the one doing the accessibility work. Measured against
+ *    this photograph, a flat scrim heavy enough to carry the lede over the
+ *    bright drawing paper (4.5:1 for 18px text) crushed the whole image. A
+ *    centred ellipse instead puts the darkness only where the text is and
+ *    leaves the edges of the photo bright.
+ *  · The linear layer keeps the top and bottom edges heavier, so the header
+ *    above and the section below meet a dark band, not a bright patch.
+ *  · The flat layer is the floor under all of it.
+ *
+ * Re-measure if the photo is swapped: a lighter image will need more.
+ */
+.scrim {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background:
+    radial-gradient(
+      ellipse var(--vignette-rx) var(--vignette-ry) at 50% 50%,
+      hsl(var(--shadow-color) / 0.62) 0%,
+      hsl(var(--shadow-color) / 0.4) 55%,
+      transparent 100%
+    ),
+    linear-gradient(
+      180deg,
+      hsl(var(--shadow-color) / 0.58) 0%,
+      hsl(var(--shadow-color) / 0.26) 42%,
+      hsl(var(--shadow-color) / 0.66) 100%
+    ),
+    hsl(var(--shadow-color) / 0.2);
+}
+
+.content {
+  position: relative;
+  display: flex;
+  height: 100%;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: 22px;
+}
+
+.contentDesktop {
+  padding: 72px 120px;
+}
+
+.contentMobile {
+  padding: 56px 20px;
+  gap: 18px;
+}
+
+.eyebrow {
+  color: hsl(var(--canvas) / 0.75);
+}
+
+.heading {
+  margin: 0;
+  max-width: 18ch;
+  color: hsl(var(--canvas));
+  text-wrap: balance;
+  font-weight: 600;
+}
+
+.headingDesktop {
+  font-size: clamp(3rem, 1.6rem + 4.4vw, 5rem);
+  line-height: 1.03;
+  letter-spacing: -0.024em;
+}
+
+.headingMobile {
+  font-size: clamp(2.25rem, 1.3rem + 4.6vw, 3rem);
+  line-height: 1.07;
+  letter-spacing: -0.02em;
+}
+
+.lede {
+  margin: 0;
+  max-width: 52ch;
+  color: hsl(var(--canvas) / 0.88);
+  line-height: 1.6;
+  text-wrap: pretty;
+}
+
+.ledeDesktop {
+  font-size: 18px;
+}
+
+.ledeMobile {
+  font-size: 15px;
+  max-width: 40ch;
+}
+
+/* --- Actions -------------------------------------------------------------- */
+
+.actions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 10px;
+}
+
+.actionsMobile {
+  width: 100%;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 10px;
+}
+
+/*
+ * The reference's pill sits on the photo, where the brand's deep green would
+ * go muddy against the scrim. Inverting it — cream fill, green label — is the
+ * same light-pill/dark-label shape at far better contrast, and reuses the
+ * pairing the system already sanctions for green surfaces.
+ *
+ * Not lime: colours.css reserves --accent/--lime for progress fill and the
+ * funded state, and forbids it as anything but a fill.
+ */
+.pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  height: 52px;
+  padding: 0 28px;
+  border: 1px solid transparent;
+  border-radius: var(--radius-pill);
+  background-color: hsl(var(--canvas));
+  color: hsl(var(--primary));
+  font-size: 15px;
+  font-weight: 600;
+  text-decoration: none;
+  white-space: nowrap;
+  transition-property: background-color, color, border-color, transform;
+  transition-timing-function: var(--ease-out);
+  transition-duration: var(--duration-control);
+}
+
+.pill:hover {
+  background-color: hsl(var(--surface));
+  color: hsl(var(--primary-hover));
+}
+
+.pillGhost {
+  background-color: transparent;
+  border-color: hsl(var(--canvas) / 0.55);
+  color: hsl(var(--canvas));
+}
+
+.pillGhost:hover {
+  background-color: hsl(var(--canvas) / 0.12);
+  border-color: hsl(var(--canvas));
+  color: hsl(var(--canvas));
+}
+
+/* --- Proof line ----------------------------------------------------------- */
+
+.stats {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 6px;
+  color: hsl(var(--canvas) / 0.8);
+  font-size: 14px;
+}
+
+.statsMobile {
+  flex-direction: column;
+  gap: 2px;
+  font-size: 13px;
+}
+
+.statsDot {
+  color: hsl(var(--canvas) / 0.5);
+}

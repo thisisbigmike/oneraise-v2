@@ -1,0 +1,36 @@
+@import "../styles/ds/ds.css";
+
+/*
+ * Text links take the brand hover colour — but only where the author has not
+ * chosen one. `:where()` contributes no specificity, so this sits at (0,0,1)
+ * and any class-based colour wins over it.
+ *
+ * As a plain `a:hover` this was (0,1,1), which outranks a single class. Every
+ * anchor styled as a filled button — .ms-btn--primary, the nav's Sign up, the
+ * hero's pills — had its label repainted to --primary-hover on hover, i.e. to
+ * the same green as its own background. The label disappeared at 1:1 contrast.
+ */
+a:where(:hover) {
+  color: hsl(var(--primary-hover));
+}
+
+/*
+ * In-page anchor targets land below the pill nav rather than behind it.
+ * The nav is fixed on the landing page and sticky elsewhere, so in both cases
+ * it occupies the top of the viewport: 14px offset plus a 64px pill on
+ * desktop, 10 + 52 on mobile. Without this the header's own "How it works"
+ * and "For creators" links scroll each section's eyebrow under the pill.
+ */
+#how-it-works,
+#for-creators,
+#live-campaigns {
+  scroll-margin-top: 102px;
+}
+
+@media (max-width: 1023.98px) {
+  #how-it-works,
+  #for-creators,
+  #live-campaigns {
+    scroll-margin-top: 78px;
+  }
+}

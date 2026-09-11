@@ -1,0 +1,555 @@
+/*
+ * motion-footer.module.css — the cinematic footer's own styling.
+ *
+ * Ported from a Tailwind + shadcn source component. Two translations were
+ * required for this codebase:
+ *
+ *  1. Colour. The source mixed with `color-mix(in oklch, var(--foreground) 3%,
+ *     transparent)`. This system's tokens are bare HSL channel triplets, not
+ *     colours — `var(--foreground)` is `24 9.8% 10%` — so every one of those
+ *     declarations would have been invalid and dropped. The equivalent here is
+ *     `hsl(var(--foreground) / 0.03)`, which is what the triplets exist for.
+ *  2. Type. The source pulled Plus Jakarta Sans off the Google Fonts CDN. The
+ *     brand faces (Fraunces, Inter) are already self-hosted in typography.css,
+ *     so the import is gone and the footer inherits them.
+ *
+ * No hexes, no raw colours — palette tokens only, per colours.css.
+ * No reduced-motion query either: motion.css owns the single global guard and
+ * zeroes every animation here. The JS-driven motion is gated separately,
+ * because GSAP writes inline transforms the CSS guard cannot reach.
+ */
+
+/* --- Wrapper: the "curtain" ---------------------------------------------- */
+
+/*
+ * clip-path is load-bearing, not decoration, and it is not a containing block:
+ * the footer inside stays fixed to the viewport (verified in Chrome — a fixed
+ * child of a clip-path ancestor keeps a constant viewport rect while the page
+ * scrolls). What clip-path does is confine that footer's *paint* to this box.
+ * So the footer is always sitting in the viewport and only becomes visible
+ * through the window this element opens as it scrolls up. That is the reveal:
+ * the footer holds still while the page slides off it.
+ */
+.wrapper {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  height: 100svh;
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+}
+
+.footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  display: flex;
+  width: 100%;
+  height: 100vh;
+  height: 100svh;
+  flex-direction: column;
+  justify-content: space-between;
+  overflow: hidden;
+  background-color: hsl(var(--canvas));
+  color: hsl(var(--foreground));
+
+  /* Glass-pill surface, derived from the palette rather than hard-coded. */
+  --pill-bg-from: hsl(var(--foreground) / 0.03);
+  --pill-bg-to: hsl(var(--foreground) / 0.01);
+  --pill-border: hsl(var(--border));
+  --pill-highlight: hsl(var(--surface) / 0.6);
+
+  --pill-bg-from-hover: hsl(var(--secondary) / 0.55);
+  --pill-bg-to-hover: hsl(var(--secondary) / 0.25);
+  --pill-border-hover: hsl(var(--primary) / 0.35);
+}
+
+/* --- Ambient background --------------------------------------------------- */
+
+/*
+ * Aurora. --primary is the brand green and --secondary the sage; at 15% under
+ * an 80px blur they read as a warm bloom on the canvas rather than as colour.
+ */
+.aurora {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: 0;
+  height: 60vh;
+  width: 80vw;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  filter: blur(80px);
+  pointer-events: none;
+  background: radial-gradient(
+    circle at 50% 50%,
+    hsl(var(--primary) / 0.15) 0%,
+    hsl(var(--secondary) / 0.35) 40%,
+    transparent 70%
+  );
+  animation: footer-breathe 8s ease-in-out infinite alternate;
+}
+
+.grid {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background-size: 60px 60px;
+  background-image:
+    linear-gradient(
+      to right,
+      hsl(var(--foreground) / 0.03) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      to bottom,
+      hsl(var(--foreground) / 0.03) 1px,
+      transparent 1px
+    );
+  mask-image: linear-gradient(
+    to bottom,
+    transparent,
+    black 30%,
+    black 70%,
+    transparent
+  );
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    transparent,
+    black 30%,
+    black 70%,
+    transparent
+  );
+}
+
+/*
+ * The oversized wordmark. Fraunces is a 400–700 variable face, so this asks
+ * for 700 rather than the source's 900 — a synthesised weight would smear the
+ * flared WONK terminals the brand face is chosen for.
+ */
+.giantText {
+  position: absolute;
+  bottom: -5vh;
+  left: 50%;
+  z-index: 0;
+  transform: translateX(-50%);
+  white-space: nowrap;
+  pointer-events: none;
+  user-select: none;
+  font-size: 26vw;
+  line-height: 0.75;
+  font-weight: 700;
+  letter-spacing: -0.05em;
+  color: transparent;
+  -webkit-text-stroke: 1px hsl(var(--foreground) / 0.06);
+  background: linear-gradient(
+    180deg,
+    hsl(var(--foreground) / 0.1) 0%,
+    transparent 60%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+}
+
+/* --- Marquee -------------------------------------------------------------- */
+
+.marquee {
+  position: absolute;
+  top: 48px;
+  left: 0;
+  z-index: 10;
+  width: 100%;
+  overflow: hidden;
+  padding: 16px 0;
+  border-top: 1px solid hsl(var(--border));
+  border-bottom: 1px solid hsl(var(--border));
+  background-color: hsl(var(--surface) / 0.6);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: var(--shadow-lg);
+  transform: rotate(-2deg) scale(1.1);
+}
+
+.marqueeTrack {
+  display: flex;
+  width: max-content;
+  font-size: var(--text-caption);
+  font-weight: 600;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: hsl(var(--muted-foreground));
+  animation: footer-scroll-marquee 40s linear infinite;
+}
+
+.marqueeGroup {
+  display: flex;
+  align-items: center;
+  gap: 48px;
+  padding: 0 24px;
+}
+
+.marqueeMark {
+  color: hsl(var(--primary) / 0.6);
+}
+
+@media (min-width: 768px) {
+  .marqueeTrack {
+    font-size: var(--text-small);
+  }
+}
+
+/* --- Centre content ------------------------------------------------------- */
+
+.center {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: 1024px;
+  margin: 0 auto;
+  padding: 0 24px;
+  margin-top: 80px;
+}
+
+/*
+ * Metallic text. Kept to a gradient plus a very soft drop-shadow: elevation.css
+ * is explicit that this system does not glow, so the source's 20px halo is
+ * dialled back to a hint of weight.
+ */
+.heading {
+  margin: 0 0 48px;
+  text-align: center;
+  font-size: clamp(2.5rem, 1.2rem + 5.5vw, 5.5rem);
+  line-height: 1.02;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  text-wrap: balance;
+  background: linear-gradient(
+    180deg,
+    hsl(var(--foreground)) 0%,
+    hsl(var(--foreground) / 0.45) 100%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  filter: drop-shadow(0 1px 12px hsl(var(--shadow-color) / 0.1));
+}
+
+.subheading {
+  margin: -32px auto 40px;
+  max-width: 46ch;
+  text-align: center;
+  font-size: var(--text-body);
+  line-height: var(--text-body--line-height);
+  color: hsl(var(--muted-foreground));
+  text-wrap: pretty;
+}
+
+.actions {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+}
+
+.actionRow {
+  display: flex;
+  width: 100%;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 16px;
+}
+
+.linkRow {
+  display: flex;
+  width: 100%;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+@media (min-width: 768px) {
+  .linkRow {
+    gap: 24px;
+  }
+}
+
+/* --- Glass pills ---------------------------------------------------------- */
+
+.pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  cursor: pointer;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--pill-border);
+  background: linear-gradient(
+    145deg,
+    var(--pill-bg-from) 0%,
+    var(--pill-bg-to) 100%
+  );
+  box-shadow:
+    var(--shadow-md),
+    inset 0 1px 1px var(--pill-highlight);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  text-decoration: none;
+  transition-property: background, border-color, box-shadow, color;
+  transition-timing-function: var(--ease-out);
+  transition-duration: var(--duration-control);
+}
+
+.pill:hover {
+  background: linear-gradient(
+    145deg,
+    var(--pill-bg-from-hover) 0%,
+    var(--pill-bg-to-hover) 100%
+  );
+  border-color: var(--pill-border-hover);
+  box-shadow:
+    var(--shadow-lg),
+    inset 0 1px 1px var(--pill-highlight);
+  color: hsl(var(--foreground));
+}
+
+.pillPrimary {
+  padding: 20px 40px;
+  font-size: var(--text-small);
+  font-weight: 600;
+  color: hsl(var(--foreground));
+}
+
+.pillSecondary {
+  padding: 12px 24px;
+  font-size: var(--text-caption);
+  font-weight: 500;
+  color: hsl(var(--muted-foreground));
+}
+
+.pillSecondary:hover {
+  color: hsl(var(--foreground));
+}
+
+@media (min-width: 768px) {
+  .pillPrimary {
+    font-size: var(--text-body);
+  }
+  .pillSecondary {
+    font-size: var(--text-small);
+  }
+}
+
+.pillIcon {
+  color: hsl(var(--muted-foreground));
+  transition-property: color, transform;
+  transition-timing-function: var(--ease-out);
+  transition-duration: var(--duration-control);
+  flex-shrink: 0;
+}
+
+.pill:hover .pillIcon {
+  color: hsl(var(--foreground));
+}
+
+/* --- Link columns --------------------------------------------------------- */
+
+/*
+ * The site footer this replaces on the landing page carried three columns of
+ * navigation. Losing them to the cinematic treatment would cost real links, so
+ * they ride along under the call to action.
+ */
+.columns {
+  position: relative;
+  z-index: 10;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 32px;
+  width: 100%;
+  max-width: 720px;
+  margin: 56px auto 0;
+  padding: 32px 24px 0;
+  border-top: 1px solid hsl(var(--border) / 0.7);
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-width: 0;
+}
+
+.columnHeading {
+  color: hsl(var(--muted-foreground));
+}
+
+.columnLink {
+  font-size: var(--text-small);
+  color: hsl(var(--foreground));
+  text-decoration: none;
+  width: fit-content;
+  transition-property: color;
+  transition-timing-function: var(--ease-out);
+  transition-duration: var(--duration-control);
+}
+
+.columnLink:hover {
+  color: hsl(var(--primary-hover));
+}
+
+/* --- Bottom bar ----------------------------------------------------------- */
+
+.bottomBar {
+  position: relative;
+  z-index: 20;
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 0 24px 32px;
+}
+
+@media (min-width: 768px) {
+  .bottomBar {
+    flex-direction: row;
+    padding: 0 48px 32px;
+  }
+}
+
+.copyright {
+  order: 2;
+  font-size: var(--text-caption);
+  letter-spacing: 0.02em;
+  color: hsl(var(--muted-foreground));
+}
+
+@media (min-width: 768px) {
+  .copyright {
+    order: 1;
+  }
+}
+
+/*
+ * The source put a beating red heart here. --destructive in this palette means
+ * failed or refunded, so a pulsing red badge on a crowdfunding footer would
+ * read as an alarm. The pulse survives; it drives a live escrow indicator in
+ * the brand green instead.
+ */
+.escrowBadge {
+  order: 1;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 24px;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--pill-border);
+  background: linear-gradient(
+    145deg,
+    var(--pill-bg-from) 0%,
+    var(--pill-bg-to) 100%
+  );
+  box-shadow:
+    var(--shadow-sm),
+    inset 0 1px 1px var(--pill-highlight);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  cursor: default;
+}
+
+@media (min-width: 768px) {
+  .escrowBadge {
+    order: 2;
+  }
+}
+
+.escrowDot {
+  width: 8px;
+  height: 8px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background-color: hsl(var(--primary));
+  animation: footer-pulse 2s cubic-bezier(0.25, 1, 0.5, 1) infinite;
+}
+
+.escrowLabel {
+  font-size: var(--text-caption);
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: hsl(var(--muted-foreground));
+}
+
+.escrowAmount {
+  font-size: var(--text-small);
+  font-weight: 600;
+  color: hsl(var(--foreground));
+}
+
+.toTop {
+  order: 3;
+  display: flex;
+  width: 48px;
+  height: 48px;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border-radius: 50%;
+  color: hsl(var(--muted-foreground));
+}
+
+.toTop:hover {
+  color: hsl(var(--foreground));
+}
+
+.toTop .pillIcon {
+  transition-property: color, transform;
+  transition-timing-function: var(--ease-out);
+  transition-duration: var(--duration-surface);
+}
+
+.toTop:hover .pillIcon {
+  transform: translateY(-5px);
+}
+
+/* --- Keyframes ------------------------------------------------------------ */
+
+@keyframes footer-breathe {
+  from {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 0.6;
+  }
+  to {
+    transform: translate(-50%, -50%) scale(1.1);
+    opacity: 1;
+  }
+}
+
+@keyframes footer-scroll-marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes footer-pulse {
+  0%,
+  100% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 hsl(var(--primary) / 0.45);
+  }
+  50% {
+    transform: scale(1.15);
+    box-shadow: 0 0 0 6px hsl(var(--primary) / 0);
+  }
+}

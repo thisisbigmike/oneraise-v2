@@ -1,0 +1,157 @@
+/* ============================================================================
+   utilities.css — the system's semantic utility vocabulary.
+   These are the plain-CSS equivalents of the Tailwind utilities the source kit
+   ships (@utility blocks in theme.css). Names are unchanged so the documented
+   vocabulary — `numeric`, `eyebrow`, `measure`, `reserve`, `motion-control`,
+   `motion-surface`, `progress-grow` — reads the same in either codebase.
+   ========================================================================= */
+
+/* --- Type scale ---------------------------------------------------------- */
+.font-display {
+  font-family: var(--font-display);
+  font-variation-settings: var(--font-display-variation);
+}
+.font-sans {
+  font-family: var(--font-sans);
+}
+.font-mono {
+  font-family: var(--font-mono);
+}
+
+.text-display {
+  font-size: var(--text-display);
+  line-height: var(--text-display--line-height);
+  letter-spacing: var(--text-display--letter-spacing);
+  font-weight: var(--text-display--font-weight);
+}
+.text-h1 {
+  font-size: var(--text-h1);
+  line-height: var(--text-h1--line-height);
+  letter-spacing: var(--text-h1--letter-spacing);
+  font-weight: var(--text-h1--font-weight);
+}
+.text-h2 {
+  font-size: var(--text-h2);
+  line-height: var(--text-h2--line-height);
+  letter-spacing: var(--text-h2--letter-spacing);
+  font-weight: var(--text-h2--font-weight);
+}
+.text-h3 {
+  font-size: var(--text-h3);
+  line-height: var(--text-h3--line-height);
+  letter-spacing: var(--text-h3--letter-spacing);
+  font-weight: var(--text-h3--font-weight);
+}
+.text-body {
+  font-size: var(--text-body);
+  line-height: var(--text-body--line-height);
+  letter-spacing: var(--text-body--letter-spacing);
+}
+.text-small {
+  font-size: var(--text-small);
+  line-height: var(--text-small--line-height);
+  letter-spacing: var(--text-small--letter-spacing);
+}
+.text-caption {
+  font-size: var(--text-caption);
+  line-height: var(--text-caption--line-height);
+  letter-spacing: var(--text-caption--letter-spacing);
+}
+
+/* Money, percentages, counts, countdowns. Fixed-advance figures so digits do
+   not jitter as values tick, plus a slashed zero to separate 0 from O.
+   Put this on EVERY amount. Named `numeric`, never `text-numeric`. */
+.numeric {
+  font-family: var(--font-sans);
+  font-variant-numeric: tabular-nums slashed-zero;
+  font-feature-settings:
+    "tnum" 1,
+    "zero" 1;
+  letter-spacing: -0.01em;
+}
+
+/* Uppercase label. Bundles the tracking so nobody ships a tight one. */
+.eyebrow {
+  font-size: var(--text-caption);
+  line-height: var(--text-caption--line-height);
+  letter-spacing: var(--tracking-eyebrow);
+  text-transform: uppercase;
+  font-weight: 500;
+}
+
+/* Comfortable line length for running text. */
+.measure {
+  max-width: var(--measure);
+}
+
+/* --- Colour helpers ------------------------------------------------------ */
+.text-foreground {
+  color: hsl(var(--foreground));
+}
+.text-muted-foreground {
+  color: hsl(var(--muted-foreground));
+}
+.text-primary {
+  color: hsl(var(--primary));
+}
+.text-warning {
+  color: hsl(var(--warning));
+}
+.text-destructive {
+  color: hsl(var(--destructive));
+}
+.bg-canvas {
+  background-color: hsl(var(--canvas));
+}
+.bg-surface {
+  background-color: hsl(var(--surface));
+}
+.bg-secondary {
+  background-color: hsl(var(--secondary));
+}
+
+/* --- Motion -------------------------------------------------------------- */
+/* 150ms — hover, focus, press, checked. */
+.motion-control {
+  transition-property:
+    color, background-color, border-color, outline-color, text-decoration-color,
+    fill, stroke, opacity, box-shadow, transform, filter;
+  transition-timing-function: var(--ease-out);
+  transition-duration: var(--duration-control);
+}
+/* 250ms — dialogs, popovers, drawers, accordions, anything that resizes. */
+.motion-surface {
+  transition-property:
+    color, background-color, border-color, outline-color, text-decoration-color,
+    fill, stroke, opacity, box-shadow, transform, filter;
+  transition-timing-function: var(--ease-out);
+  transition-duration: var(--duration-surface);
+}
+
+/* --- Boxes --------------------------------------------------------------- */
+/* Reserve a box before an image loads. Pair with width/height on the <img>. */
+.reserve {
+  background-color: hsl(var(--sage));
+  overflow: hidden;
+}
+
+/* Progress fills grow from empty on first paint rather than snapping in.
+   @starting-style needs no JS and no keyframes; the duration is a token, so the
+   reduced-motion guard collapses it to 1ms. */
+.progress-grow {
+  transition-property: width;
+  transition-timing-function: var(--ease-out);
+  transition-duration: var(--duration-surface);
+}
+@starting-style {
+  .progress-grow {
+    width: 0;
+  }
+}
+
+.line-clamp-2 {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+}

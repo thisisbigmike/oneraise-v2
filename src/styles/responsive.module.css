@@ -1,0 +1,29 @@
+/*
+ * The desktop (1440) and mobile (390) layouts in the source design are
+ * distinct compositions, not a squeeze of one another — different nav,
+ * different milestone-tracker markup, different section rhythm. Rather than
+ * force one structure to flex across the gap, both variants render and this
+ * toggles which one is in the flow, matching the design system's documented
+ * breakpoint scale (390 mobile / 768 tablet / 1024 / 1440 desktop).
+ *
+ * These classes go on a bare wrapper with no other styling — the section's
+ * own display:flex/grid lives on a child div. An inline `style` always wins
+ * over an external stylesheet rule, so if `display` were set on the same
+ * element as one of these classes, the inline value would silently defeat
+ * the breakpoint toggle.
+ */
+.desktopOnly {
+  display: block;
+}
+.mobileOnly {
+  display: none;
+}
+
+@media (max-width: 1023.98px) {
+  .desktopOnly {
+    display: none;
+  }
+  .mobileOnly {
+    display: block;
+  }
+}
