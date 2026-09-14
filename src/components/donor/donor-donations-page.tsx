@@ -43,7 +43,7 @@ function Body({ pledges, compact }: { pledges: DonorPledge[]; compact?: boolean 
           Donor
         </div>
         <h2 className="font-display" style={{ fontSize: 30, lineHeight: 1.2, letterSpacing: "-0.014em", fontWeight: 600, margin: 0 }}>
-          Your pledges
+          Your donations
         </h2>
       </div>
 
@@ -80,7 +80,7 @@ function Body({ pledges, compact }: { pledges: DonorPledge[]; compact?: boolean 
                 Nothing here yet. <Link href="/discover">Find a campaign to back</Link>.
               </>
             ) : (
-              "No pledges match this filter."
+              "No donations match this filter."
             )}
           </div>
         )}
@@ -156,7 +156,7 @@ function Body({ pledges, compact }: { pledges: DonorPledge[]; compact?: boolean 
   );
 }
 
-export function DonorPledgesPage({
+export function DonorDonationsPage({
   account,
   pledges,
   reviewCount,
@@ -167,7 +167,7 @@ export function DonorPledgesPage({
 }) {
   return (
     <DonorShell
-      active="pledges"
+      active="donations"
       account={account}
       reviewCount={reviewCount}
       desktop={<Body pledges={pledges} />}

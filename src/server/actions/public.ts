@@ -12,12 +12,12 @@ const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 export async function createPledge(_prev: ActionState, formData: FormData): Promise<ActionState> {
   const viewer = await getViewer();
-  if (!viewer) return { error: "Sign in to place a pledge." };
+  if (!viewer) return { error: "Sign in to place a donation." };
   const c = campaignBySlug(text(formData.get("campaign")));
   if (!c) return { error: "That campaign no longer exists." };
-  if (!acceptsPledges(c)) return { error: "This campaign isn't taking pledges right now." };
+  if (!acceptsPledges(c)) return { error: "This campaign isn't taking donations right now." };
   if (viewer.creatorId != null && viewer.creatorId === c.creator_id) {
-    return { error: "You can't pledge to your own campaign." };
+    return { error: "You can't donation to your own campaign." };
   }
   const tierId = Number(formData.get("tier"));
   const tier = get<{ id: number; amount: number; stock: number | null; taken: number }>(
@@ -48,7 +48,7 @@ export async function createPledge(_prev: ActionState, formData: FormData): Prom
   revalidatePath("/", "layout");
   return {
     ok: true,
-    message: `Your ${usd(tier.amount)} pledge to ${c.title} is in. It's charged when funding closes and released one stage at a time.`,
+    message: `Your ${usd(tier.amount)} donation to ${c.title} is in. It's charged when funding closes and released one stage at a time.`,
   };
 }
 
@@ -65,7 +65,7 @@ export async function toggleFollow(_prev: ActionState, formData: FormData): Prom
 }
 
 const TOPICS = [
-  "A pledge or donation",
+  "A donation or donation",
   "A campaign I'm running",
   "A dispute or milestone review",
   "My account",

@@ -718,7 +718,7 @@ export function CreatorWorkbench({
         >
           {data.recentDonors.length === 0 && (
             <div style={{ padding: "16px 20px", fontSize: 13, color: "hsl(var(--muted-foreground))" }}>
-              No pledges yet. They appear here as they come in.
+              No donations yet. They appear here as they come in.
             </div>
           )}
           {data.recentDonors.map((d) => (

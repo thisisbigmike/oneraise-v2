@@ -4,7 +4,7 @@ import { clientIp, getViewer } from "@/server/auth";
 
 export const dynamic = "force-dynamic";
 
-/** A subject-access export of one account: profile, pledges, reviews, follows. Never includes the password hash. */
+/** A subject-access export of one account: profile, donations, reviews, follows. Never includes the password hash. */
 export async function GET(_request: Request, { params }: { params: Promise<{ id: string }> }) {
   const viewer = await getViewer();
   if (viewer?.role !== "admin") return new Response("Staff only.", { status: 403 });

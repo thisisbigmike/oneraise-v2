@@ -93,7 +93,7 @@ export function VerifyView({
               Your account exists already
             </span>
             <span style={{ fontSize: 14, lineHeight: 1.55, color: "hsl(var(--muted-foreground))" }}>
-              Browsing and pledging work now. Verify so review windows and refund notices reach you.
+              Browsing and donating work now. Verify so review windows and refund notices reach you.
             </span>
           </div>
 

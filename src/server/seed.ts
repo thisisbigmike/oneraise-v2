@@ -115,10 +115,10 @@ function hashString(s: string): number {
 }
 
 /**
- * Pick `count` pledge amounts from the tiers that sum to exactly `total`:
- * draw by weight, walk individual pledges up or down a tier until the sum is
+ * Pick `count` donation amounts from the tiers that sum to exactly `total`:
+ * draw by weight, walk individual donations up or down a tier until the sum is
  * within one tier step of the target, then settle the remainder as a custom
- * amount on one pledge.
+ * amount on one donation.
  */
 function distributePledges(
   rand: () => number,

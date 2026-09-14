@@ -33,7 +33,7 @@ export function LockedView({
         <SecurityContextPanel
           eyebrow="Attempt log"
           heading="Nothing in escrow was touched"
-          body="A lock stops sign-in only. Pledges, milestone approvals and payouts continue under their own rules."
+          body="A lock stops sign-in only. Donations, milestone approvals and payouts continue under their own rules."
           rows={attempts.length ? attempts : [{ left: "No recent attempts", right: "—" }]}
         />
       }

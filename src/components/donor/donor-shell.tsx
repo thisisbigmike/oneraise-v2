@@ -12,7 +12,7 @@ import styles from "@/styles/responsive.module.css";
 export type DonorActive =
   | "overview"
   | "reviews"
-  | "pledges"
+  | "donations"
   | "refunds"
   | "following"
   | "settings";
@@ -41,9 +41,9 @@ function navItems(active: DonorActive, reviewCount: number): SidebarItem[] {
     },
     {
       icon: "circle-dollar-sign",
-      label: "Your pledges",
-      href: "/donor/pledges",
-      active: active === "pledges",
+      label: "Your donations",
+      href: "/donor/donations",
+      active: active === "donations",
     },
     {
       icon: "arrow-left",
@@ -84,9 +84,9 @@ function tabItems(active: DonorActive, reviewCount: number): TabBarItem[] {
     },
     {
       icon: "circle-dollar-sign",
-      label: "Pledges",
-      href: "/donor/pledges",
-      active: active === "pledges",
+      label: "Donations",
+      href: "/donor/donations",
+      active: active === "donations",
     },
     { icon: "search", label: "Discover", href: "/discover" },
     {

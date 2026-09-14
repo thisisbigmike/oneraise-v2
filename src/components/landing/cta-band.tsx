@@ -41,7 +41,7 @@ export function CtaBand() {
                 textWrap: "pretty",
               }}
             >
-              Pledges start at $10, and you can see exactly which stage your
+              Donations start at $10, and you can see exactly which stage your
               money is holding at any time.
             </p>
           </div>
@@ -103,7 +103,7 @@ export function CtaBand() {
               textWrap: "pretty",
             }}
           >
-            Pledges start at $10, and you can see exactly which stage your money
+            Donations start at $10, and you can see exactly which stage your money
             is holding at any time.
           </p>
           <Link

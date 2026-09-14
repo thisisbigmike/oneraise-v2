@@ -84,7 +84,7 @@ function Body({ donors, total, compact }: { donors: DonorEntry[]; total: number;
       >
         {rows.length === 0 && (
           <div style={{ padding: 24, textAlign: "center", fontSize: 13, color: "hsl(var(--muted-foreground))" }}>
-            {donors.length === 0 ? "No pledges yet." : "No donors match that search."}
+            {donors.length === 0 ? "No donations yet." : "No donors match that search."}
           </div>
         )}
         {rows.map((d, i) => (

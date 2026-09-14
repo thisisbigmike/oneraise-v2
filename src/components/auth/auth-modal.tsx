@@ -8,7 +8,7 @@ import { signIn } from "@/server/actions/auth";
 
 /** The "Back this project" interruption — auth over the campaign, no
  *  navigation away. Mounted by any page that needs a signed-out visitor to
- *  authenticate before an action (pledging, following) completes. */
+ *  authenticate before an action (donating, following) completes. */
 export function AuthModal({
   amountLabel,
   campaignName,
@@ -70,7 +70,7 @@ export function AuthModal({
           </h4>
           <p style={{ margin: 0, fontSize: 14, lineHeight: 1.55, color: "hsl(var(--muted-foreground))" }}>
             Sign in to place your <span className="numeric" style={{ color: "hsl(var(--foreground))", fontWeight: 500 }}>{amountLabel}</span>{" "}
-            pledge to {campaignName}. You&apos;ll confirm it before anything is recorded.
+            donation to {campaignName}. You&apos;ll confirm it before anything is recorded.
           </p>
         </div>
         <form action={action} style={{ padding: "0 24px 20px", display: "flex", flexDirection: "column", gap: 12 }}>

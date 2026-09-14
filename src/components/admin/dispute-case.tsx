@@ -175,7 +175,7 @@ export function DisputeCaseView({ detail }: { detail: DisputeCaseDetail }) {
                       <span style={{ display: "flex", alignItems: "center", gap: 10 }}>
                         <span style={{ fontSize: 13, fontWeight: 600 }}>{c.name}</span>
                         <span className="numeric" style={{ fontSize: 12, color: "hsl(var(--muted-foreground))" }}>
-                          {c.pledged} pledged · {c.date}
+                          {c.pledged} donated · {c.date}
                         </span>
                       </span>
                       <p style={{ margin: 0, fontSize: 13, lineHeight: 1.6, color: "hsl(var(--muted-foreground))" }}>{c.note}</p>

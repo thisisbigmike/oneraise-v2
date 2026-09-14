@@ -86,7 +86,7 @@ function ProfileCard({ data }: { data: DonorSettingsData }) {
               <FieldError message={state.fieldErrors?.country} />
             </div>
             <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
-              <span style={{ fontSize: 14, fontWeight: 500 }}>Pledge currency</span>
+              <span style={{ fontSize: 14, fontWeight: 500 }}>Donation currency</span>
               <div
                 style={{
                   height: "var(--control-h-md)",
@@ -184,7 +184,7 @@ function CloseCard({ data }: { data: DonorSettingsData }) {
           <span style={{ fontSize: 14, fontWeight: 500 }}>Close your account</span>
           <span className="numeric" style={{ fontSize: 13, color: "hsl(var(--muted-foreground))" }}>
             {data.canClose
-              ? "Nothing you pledged is still held. Closing removes your name and email and signs you out."
+              ? "Nothing you donated is still held. Closing removes your name and email and signs you out."
               : `Blocked while ${data.escrowHeld} sits in escrow. Available once every milestone you fund has settled.`}
           </span>
         </div>

@@ -9,7 +9,7 @@ import { useViewer } from "@/components/viewer-context";
 import { sendContactMessage } from "@/server/actions/public";
 
 const TOPICS = [
-  "A pledge or donation",
+  "A donation or donation",
   "A campaign I'm running",
   "A dispute or milestone review",
   "My account",

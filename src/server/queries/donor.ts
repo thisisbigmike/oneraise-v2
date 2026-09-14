@@ -45,7 +45,7 @@ interface PledgeTotals {
   last_refund_at: number | null;
 }
 
-/** The viewer's pledges, one row per campaign. */
+/** The viewer's donations, one row per campaign. */
 function pledgeTotals(userId: number): PledgeTotals[] {
   return all<PledgeTotals>(
     `SELECT p.campaign_id, SUM(p.amount) AS amount, MIN(p.created_at) AS first_at,
@@ -99,8 +99,8 @@ function describePledge(t: PledgeTotals, c: CampaignRow, milestones: MilestoneRo
   else stageNote = "No stages defined yet";
 
   const pledgedLabel = fullyRefunded
-    ? `Pledged ${usd(t.amount)} · refunded`
-    : `Pledged ${usd(t.amount)} · ${stageLabel(milestones).toLowerCase()}`;
+    ? `Donated ${usd(t.amount)} · refunded`
+    : `Donated ${usd(t.amount)} · ${stageLabel(milestones).toLowerCase()}`;
 
   return {
     id: c.id,
@@ -294,8 +294,8 @@ export async function getDonorRefunds(viewer: Viewer): Promise<{ figure: DonorFi
       amount: usd(t.refunded),
       statusLabel,
       note: queued
-        ? "Queued refunds land on the card you pledged with 3 to 5 working days after the batch runs."
-        : "Refunds land back on the card you pledged with, 3 to 5 working days after a milestone is refunded.",
+        ? "Queued refunds land on the card you donated with 3 to 5 working days after the batch runs."
+        : "Refunds land back on the card you donated with, 3 to 5 working days after a milestone is refunded.",
       milestones: trackFor(milestones, disputes, p.now),
     });
   }
@@ -403,7 +403,7 @@ export async function getDonorSettings(viewer: Viewer): Promise<DonorSettingsDat
     emailVerified: u.email_verified_at != null,
     country: u.country,
     currencyLabel: currencyFor(u.country),
-    card: u.card_label ? { label: u.card_label, meta: `Expires ${u.card_expiry ?? "—"} · used for ${plural(cardPledges, "pledge")}` } : null,
+    card: u.card_label ? { label: u.card_label, meta: `Expires ${u.card_expiry ?? "—"} · used for ${plural(cardPledges, "donation")}` } : null,
     passwordChanged: `Last changed ${longDate(u.password_changed_at)}`,
     twoFactor: u.two_factor === 1,
     sessionsCount: sessions.count,

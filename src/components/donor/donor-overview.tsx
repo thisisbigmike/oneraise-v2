@@ -70,7 +70,7 @@ function NoPledges() {
     >
       <span style={{ fontSize: 15, fontWeight: 600 }}>You haven&apos;t backed a campaign yet</span>
       <span style={{ fontSize: 13, color: "hsl(var(--muted-foreground))" }}>
-        Pledges sit in escrow and release one milestone at a time — you review each one.
+        Donations sit in escrow and release one milestone at a time — you review each one.
       </span>
       <Link href="/discover" className="ms-btn ms-btn--primary ms-btn--md">
         Discover campaigns
@@ -110,7 +110,7 @@ function PledgeCard({ p }: { p: DonorPledge }) {
           </div>
           <div style={{ display: "flex", alignItems: "center", gap: 24, marginTop: 4 }}>
             {[
-              { l: "You pledged", v: p.pledgedAmount },
+              { l: "You donated", v: p.pledgedAmount },
               { l: "Still in escrow", v: p.inEscrow },
               { l: "Released", v: p.released },
               ...(p.refunded !== "$0" ? [{ l: "Refunded", v: p.refunded }] : []),
@@ -387,7 +387,7 @@ export function DonorOverview({
               </div>
               <div style={{ display: "flex", alignItems: "center", gap: 20 }}>
                 {[
-                  { l: "Pledged", v: p.pledgedAmount },
+                  { l: "Donated", v: p.pledgedAmount },
                   { l: "In escrow", v: p.inEscrow },
                   { l: "Released", v: p.released },
                 ].map((f) => (

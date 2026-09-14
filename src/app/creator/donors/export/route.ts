@@ -7,7 +7,7 @@ export const dynamic = "force-dynamic";
 
 const csv = (v: string | number) => `"${String(v).replace(/"/g, '""')}"`;
 
-/** Every pledge to the creator's active campaign as CSV: name, place, amount, tier, date. */
+/** Every donation to the creator's active campaign as CSV: name, place, amount, tier, date. */
 export async function GET() {
   const viewer = await getViewer();
   if (!viewer || viewer.creatorId == null) return new Response("Sign in with your creator account.", { status: 401 });
@@ -25,7 +25,7 @@ export async function GET() {
     campaign.id,
   );
   const body = [
-    ["Name", "Location", "Amount (USD)", "Tier", "Pledged at (UTC)"].map(csv).join(","),
+    ["Name", "Location", "Amount (USD)", "Tier", "Donated at (UTC)"].map(csv).join(","),
     ...rows.map((r) =>
       [r.backer_name, r.backer_location, r.amount, r.tier ?? "Custom amount", new Date(r.created_at).toISOString()].map(csv).join(","),
     ),

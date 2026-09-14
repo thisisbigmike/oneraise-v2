@@ -25,7 +25,7 @@ const COLUMNS = [
       { text: "Discover campaigns", href: "/discover" },
       { text: "How escrow works", href: "/how-escrow-works" },
       { text: "Escrow and refunds", href: "/escrow-and-refund-policy" },
-      { text: "Your pledges", href: "/donor/pledges" },
+      { text: "Your donations", href: "/donor/donations" },
     ],
   },
   {

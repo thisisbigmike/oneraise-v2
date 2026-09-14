@@ -44,7 +44,7 @@ const DEFAULT_COMPANY = {
   name: "OneRaise",
   initials: "OR",
   description:
-    "Milestone crowdfunding. Pledges are held in escrow and released one stage at a time, after donors have seen the work. Escrow held by Onefold Trust Services, registered in England.",
+    "Milestone crowdfunding. Donations are held in escrow and released one stage at a time, after donors have seen the work. Escrow held by Onefold Trust Services, registered in England.",
   href: "/",
 };
 
@@ -63,7 +63,7 @@ const DEFAULT_COLUMNS: FooterColumnData[] = [
       { text: "Discover campaigns", href: "/discover" },
       { text: "How escrow works", href: "/how-escrow-works" },
       { text: "Escrow and refunds", href: "/escrow-and-refund-policy" },
-      { text: "Your pledges", href: "/donor/pledges" },
+      { text: "Your donations", href: "/donor/donations" },
     ],
   },
   {

@@ -827,7 +827,7 @@ export const moderationDecisionOptions = [
   {
     label: "Pause and warn the creator",
     description:
-      "No new pledges for 7 days. Escrow holds. Creator must fix the listed breaches.",
+      "No new donations for 7 days. Escrow holds. Creator must fix the listed breaches.",
   },
   {
     label: "Dismiss the reports",
@@ -929,7 +929,7 @@ export const userProfile = {
   verified: true,
   figures: [
     { label: "In escrow", value: "$1,240" },
-    { label: "Lifetime pledged", value: "$2,250" },
+    { label: "Lifetime donated", value: "$2,250" },
     { label: "Refunded", value: "$150" },
     { label: "Disputes raised", value: "1" },
   ],

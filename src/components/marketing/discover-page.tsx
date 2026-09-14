@@ -82,7 +82,7 @@ export function DiscoverPage({ campaigns }: { campaigns: CampaignCard[] }) {
               color: "hsl(var(--muted-foreground))",
             }}
           >
-            Every campaign here is broken into milestones. Your pledge sits in
+            Every campaign here is broken into milestones. Your donation sits in
             escrow and only reaches the creator as they show each stage done.
           </p>
         </div>

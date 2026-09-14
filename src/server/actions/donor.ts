@@ -101,7 +101,7 @@ export async function updateNotifications(_prev: ActionState, formData: FormData
   return { ok: true, message: "Notification settings saved." };
 }
 
-/** Closing is only possible once nothing the donor pledged is still held in escrow. */
+/** Closing is only possible once nothing the donor donated is still held in escrow. */
 export async function closeAccount(): Promise<ActionState> {
   const viewer = await getViewer();
   if (!viewer) return { error: "Sign in again first." };

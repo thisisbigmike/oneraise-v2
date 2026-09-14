@@ -75,7 +75,7 @@ export function SignInView({
         <CampaignContextPanel
           eyebrow={next ? "You were viewing" : "Open now"}
           heading="Escrow, in stages"
-          body="A pledge is held rather than paid. The creator draws one milestone at a time, and only after donors have had 72 hours to review the work. Your account is where those reviews land."
+          body="A donation is held rather than paid. The creator draws one milestone at a time, and only after donors have had 72 hours to review the work. Your account is where those reviews land."
           campaign={campaign}
         />
       }

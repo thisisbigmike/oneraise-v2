@@ -221,7 +221,7 @@ function MarqueeGroup({ items }: { items: string[] }) {
 export function CinematicFooter({
   wordmark = "ONERAISE",
   heading = "Fund a stage today",
-  subheading = "Pledges start at $10, and you can see exactly which stage your money is holding at any time.",
+  subheading = "Donations start at $10, and you can see exactly which stage your money is holding at any time.",
   marqueeItems = DEFAULT_MARQUEE,
   primaryActions = DEFAULT_PRIMARY_ACTIONS,
   ctaOrder = "donor-first",

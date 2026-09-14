@@ -138,7 +138,7 @@ export function ResetView({
         </Link>
       )}
       <p style={{ margin: "auto 0 0", fontSize: 12, lineHeight: 1.5, color: "hsl(var(--muted-foreground))", maxWidth: "46ch" }}>
-        Two-factor stays as it was. Your escrow balance and pledge history are unaffected.
+        Two-factor stays as it was. Your escrow balance and donation history are unaffected.
       </p>
     </AuthShell>
   );

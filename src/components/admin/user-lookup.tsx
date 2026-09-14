@@ -208,7 +208,7 @@ export function UserLookup({
                 </div>
               </div>
 
-              <Panel title="Pledges">
+              <Panel title="Donations">
                 <div
                   style={{
                     display: "grid",
@@ -219,14 +219,14 @@ export function UserLookup({
                     background: "hsl(var(--canvas))",
                   }}
                 >
-                  {["Campaign", "Pledged", "In escrow", "Date", "State"].map((h) => (
+                  {["Campaign", "Donated", "In escrow", "Date", "State"].map((h) => (
                     <span key={h} style={{ fontSize: 12, fontWeight: 500, color: "hsl(var(--muted-foreground))" }}>
                       {h}
                     </span>
                   ))}
                 </div>
                 {profile.pledges.length === 0 && (
-                  <div style={{ padding: "16px 20px", fontSize: 13, color: "hsl(var(--muted-foreground))" }}>No pledges on this account.</div>
+                  <div style={{ padding: "16px 20px", fontSize: 13, color: "hsl(var(--muted-foreground))" }}>No donations on this account.</div>
                 )}
                 {profile.pledges.map((p, i) => (
                   <div

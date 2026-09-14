@@ -41,7 +41,7 @@ export function SessionExpiredModal({
             {draftAmountLabel && (
               <>
                 {" "}
-                Your pledge draft of{" "}
+                Your donation draft of{" "}
                 <span className="numeric" style={{ color: "hsl(var(--foreground))", fontWeight: 500 }}>
                   {draftAmountLabel}
                 </span>{" "}

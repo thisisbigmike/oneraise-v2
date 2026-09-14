@@ -506,7 +506,7 @@ function Dialog({
   );
 }
 
-/** The last step before a pledge is recorded. */
+/** The last step before a donation is recorded. */
 function PledgeConfirm({
   detail,
   tier,
@@ -524,10 +524,10 @@ function PledgeConfirm({
   }, [state.ok, state.message, onPledged]);
 
   return (
-    <Dialog label="Confirm your pledge" onClose={onClose}>
+    <Dialog label="Confirm your donation" onClose={onClose}>
       <div style={{ display: "flex", flexDirection: "column", gap: 8, paddingRight: 32 }}>
         <h4 className="font-display" style={{ fontSize: 24, lineHeight: 1.3, letterSpacing: "-0.010em", fontWeight: 600, margin: 0 }}>
-          Confirm your pledge
+          Confirm your donation
         </h4>
         <p style={{ margin: 0, fontSize: 14, lineHeight: 1.55, color: "hsl(var(--muted-foreground))" }}>
           {detail.title} · {detail.creator.name}
@@ -542,7 +542,7 @@ function PledgeConfirm({
         }}
       >
         {[
-          { l: "Your pledge", v: tier.amount },
+          { l: "Your donation", v: tier.amount },
           { l: "Reward", v: tier.label },
           { l: "Releases", v: `One stage at a time · ${detail.milestones.length} stages` },
         ].map((row, i, arr) => (
@@ -568,8 +568,8 @@ function PledgeConfirm({
         <input type="hidden" name="campaign" value={detail.slug} />
         <input type="hidden" name="tier" value={tier.id} />
         <FormError message={state.error} />
-        <SubmitButton className="ms-btn ms-btn--primary ms-btn--lg" style={{ width: "100%" }} pendingLabel="Placing pledge…">
-          Pledge {tier.amount}
+        <SubmitButton className="ms-btn ms-btn--primary ms-btn--lg" style={{ width: "100%" }} pendingLabel="Placing donation…">
+          Donate {tier.amount}
         </SubmitButton>
       </form>
       <div style={{ display: "flex", gap: 10, alignItems: "flex-start", color: "hsl(var(--muted-foreground))" }}>
@@ -683,7 +683,7 @@ const CLOSED_LABEL: Partial<Record<CampaignDetail["status"], string>> = {
   funded: "Funding has closed",
   failed: "This campaign didn't reach its goal",
   refunded: "This campaign was refunded",
-  paused: "Paused — not taking pledges",
+  paused: "Paused — not taking donations",
   draft: "Not published yet",
 };
 
@@ -700,7 +700,7 @@ export function CampaignDetailView({ detail, viewer }: { detail: CampaignDetail;
   const tier = detail.tiers[selectedTier] ?? detail.tiers[0];
   const returnTo = `/campaigns/${detail.slug}`;
   const signInHref = viewer.signedIn ? null : `/signin?next=${encodeURIComponent(returnTo)}`;
-  const closedLabel = detail.canPledge ? null : (CLOSED_LABEL[detail.status] ?? "Not taking pledges");
+  const closedLabel = detail.canPledge ? null : (CLOSED_LABEL[detail.status] ?? "Not taking donations");
 
   const handleBackThis = () => {
     if (!detail.canPledge || !tier) return;
@@ -763,12 +763,13 @@ export function CampaignDetailView({ detail, viewer }: { detail: CampaignDetail;
           }
         />
 
-        <div style={{ padding: "44px clamp(24px, 6vw, 120px) 64px" }}>
+        {/* 8.334vw lands exactly on the artboard's 120px at 1440 and eases off below it. */}
+        <div style={{ padding: "44px clamp(24px, 8.334vw, 120px) 64px" }}>
           {pledgedMessage && (
             <div style={{ marginBottom: 24 }}>
               <FormSuccess message={pledgedMessage}>
-                <Link href="/donor/pledges" style={{ fontSize: 13 }}>
-                  See it in your pledges →
+                <Link href="/donor/donations" style={{ fontSize: 13 }}>
+                  See it in your donations →
                 </Link>
               </FormSuccess>
             </div>
@@ -835,6 +836,7 @@ export function CampaignDetailView({ detail, viewer }: { detail: CampaignDetail;
               gap: 24,
               alignItems: "start",
               marginTop: 36,
+              maxWidth: 1200,
             }}
           >
             <div style={{ display: "flex", flexDirection: "column", gap: 36, minWidth: 0 }}>
@@ -1005,7 +1007,7 @@ export function CampaignDetailView({ detail, viewer }: { detail: CampaignDetail;
                 {viewer.pledgedTotal && (
                   <div style={{ display: "flex", alignItems: "center", gap: 8, fontSize: 13 }}>
                     <Icon name="check" size={14} strokeWidth={3} style={{ width: 14, height: 14, color: "hsl(var(--primary))" }} />
-                    You&apos;ve pledged <span className="numeric" style={{ fontWeight: 600 }}>{viewer.pledgedTotal}</span> to this campaign.
+                    You&apos;ve donated <span className="numeric" style={{ fontWeight: 600 }}>{viewer.pledgedTotal}</span> to this campaign.
                   </div>
                 )}
 
@@ -1021,7 +1023,7 @@ export function CampaignDetailView({ detail, viewer }: { detail: CampaignDetail;
                     </div>
 
                     <button type="button" className="ms-btn ms-btn--primary ms-btn--lg" style={{ width: "100%" }} onClick={handleBackThis}>
-                      {viewer.signedIn ? `Pledge ${tier?.amount ?? ""}` : "Back this project"}
+                      {viewer.signedIn ? `Donation ${tier?.amount ?? ""}` : "Back this project"}
                     </button>
                   </>
                 ) : (
@@ -1350,7 +1352,7 @@ export function CampaignDetailView({ detail, viewer }: { detail: CampaignDetail;
               ))}
             </div>
             <div style={{ display: "flex", alignItems: "baseline", justifyContent: "space-between", gap: 12, paddingTop: 12, borderTop: "1px solid hsl(var(--border))" }}>
-              <span style={{ fontSize: 13, color: "hsl(var(--muted-foreground))" }}>Your pledge</span>
+              <span style={{ fontSize: 13, color: "hsl(var(--muted-foreground))" }}>Your donation</span>
               <span className="numeric" style={{ fontSize: 17, fontWeight: 600 }}>
                 {tier?.amount} · {detail.milestones.length} stages
               </span>

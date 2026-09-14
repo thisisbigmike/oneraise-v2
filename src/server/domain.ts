@@ -6,7 +6,7 @@ import type { CampaignStatus, Milestone } from "@/lib/types";
 /**
  * The escrow model, in one place.
  *
- *   raised          every pledge ever made to the campaign
+ *   raised          every donation ever made to the campaign
  *   released        paid out to the creator (sum of payouts)
  *   refundedTotal   committed to refunds, whether or not the batch has run
  *   refundedPaid    refunds that have actually left the trustee account
@@ -14,8 +14,8 @@ import type { CampaignStatus, Milestone } from "@/lib/types";
  *   escrow balance  raised − released − refundedPaid   (what the trustee holds)
  *   available       raised − released − refundedTotal  (what can still release)
  *
- * A release draws pro rata from every pledge, so a donor's released share is
- * pledge × released ÷ raised. Refunds are recorded per pledge.
+ * A release draws pro rata from every donation, so a donor's released share is
+ * donation × released ÷ raised. Refunds are recorded per donation.
  */
 
 export const PLATFORM_FEE = 0.05;
@@ -289,7 +289,7 @@ export function termsWithDate(m: MilestoneRow, launchedAt: number | null, format
   return launchedAt ? `${m.terms} Agreed at launch on ${format(launchedAt)}.` : m.terms;
 }
 
-/** A pledge's slice of the campaign's releases, and what is still held for it. */
+/** A donation's slice of the campaign's releases, and what is still held for it. */
 export function pledgeShares(amount: number, refunded: number, c: Pick<CampaignRow, "raised" | "released">) {
   const released = c.raised > 0 ? (amount * c.released) / c.raised : 0;
   return { released, refunded, inEscrow: Math.max(0, amount - released - refunded) };
@@ -365,7 +365,7 @@ export function releaseMilestone(milestoneId: number, actor: Actor, reason: stri
 
 /**
  * Queue a refund of `amount` from a campaign's escrow, split across its
- * pledges in proportion to what each still has held. Returns the batch code.
+ * donations in proportion to what each still has held. Returns the batch code.
  */
 export function queueRefund(c: CampaignRow, amount: number, reason: string): string | null {
   return tx(() => {

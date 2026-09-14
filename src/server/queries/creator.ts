@@ -391,7 +391,7 @@ export async function getCreatorSettings(viewer: Viewer): Promise<CreatorSetting
     { key: "payout_landed", label: "A payout lands in your account", checked: prefs.payout_landed ?? true },
     {
       key: "every_pledge",
-      label: "Every new pledge",
+      label: "Every new donation",
       meta: donors > 50 ? `Off by default — ${count(donors)} donors is a lot of email` : "Off by default",
       checked: prefs.every_pledge ?? false,
     },

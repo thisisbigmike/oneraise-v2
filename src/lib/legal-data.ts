@@ -17,25 +17,25 @@ export const termsContent: ContentPageData = {
   title: "Terms of use",
   updated: "Last updated 1 August 2026",
   intro:
-    "These terms cover everyone who uses OneRaise — donors pledging to a campaign, creators publishing one, and anyone browsing. They describe what escrow does and does not promise, and what happens when a milestone is disputed.",
+    "These terms cover everyone who uses OneRaise — donors donating to a campaign, creators publishing one, and anyone browsing. They describe what escrow does and does not promise, and what happens when a milestone is disputed.",
   sections: [
     {
       heading: "1. What OneRaise is",
       paragraphs: [
-        "OneRaise is a milestone crowdfunding platform. A creator publishes a campaign broken into funded stages. A donor pledges toward the whole campaign, but their money is only released to the creator one stage at a time, after that stage's evidence has stood for a dispute window with no unresolved objection.",
-        "We are not a bank and do not offer investment returns. A pledge is a gift toward a project, made in the expectation that the creator delivers what a stage's published terms describe.",
+        "OneRaise is a milestone crowdfunding platform. A creator publishes a campaign broken into funded stages. A donor donations toward the whole campaign, but their money is only released to the creator one stage at a time, after that stage's evidence has stood for a dispute window with no unresolved objection.",
+        "We are not a bank and do not offer investment returns. A donation is a gift toward a project, made in the expectation that the creator delivers what a stage's published terms describe.",
       ],
     },
     {
       heading: "2. Accounts",
       paragraphs: [
-        "You need an account to pledge or to publish a campaign. You are responsible for keeping your credentials and two-factor device secure, and for the accuracy of the information you give us at signup and in any identity check we ask a creator to complete.",
+        "You need an account to donation or to publish a campaign. You are responsible for keeping your credentials and two-factor device secure, and for the accuracy of the information you give us at signup and in any identity check we ask a creator to complete.",
       ],
     },
     {
-      heading: "3. Pledges and escrow",
+      heading: "3. Donations and escrow",
       paragraphs: [
-        "A pledge is charged to your payment method when you make it and held in escrow, not paid to the creator. Escrow releases in the amounts and on the schedule the campaign's published milestones set out — see our escrow and refund policy for the full mechanics.",
+        "A donation is charged to your payment method when you make it and held in escrow, not paid to the creator. Escrow releases in the amounts and on the schedule the campaign's published milestones set out — see our escrow and refund policy for the full mechanics.",
       ],
     },
     {
@@ -80,13 +80,13 @@ export const privacyContent: ContentPageData = {
       list: [
         "Identity — name, email, country, and for creators the documents an identity check requires",
         "Payment — card or bank details, held by our payment processor, never stored on our servers in full",
-        "Activity — pledges, milestone reviews, disputes raised, and support requests",
+        "Activity — donations, milestone reviews, disputes raised, and support requests",
       ],
     },
     {
       heading: "Why we collect it",
       paragraphs: [
-        "To run escrow: matching a pledge to a milestone, holding funds until a window closes, and releasing or refunding correctly.",
+        "To run escrow: matching a donation to a milestone, holding funds until a window closes, and releasing or refunding correctly.",
         "To run identity checks: confirming a creator receiving payouts is who they say they are, required before any campaign can publish.",
         "To keep an audit trail: every release, refund, and moderation decision is retained so it can be reviewed later, by you or by a regulator.",
       ],
@@ -140,7 +140,7 @@ export const cookiesContent: ContentPageData = {
     {
       heading: "Managing cookies",
       paragraphs: [
-        "Most browsers let you block or delete cookies in their settings. Blocking essential cookies will sign you out and may prevent pledging or publishing a campaign.",
+        "Most browsers let you block or delete cookies in their settings. Blocking essential cookies will sign you out and may prevent donating or publishing a campaign.",
       ],
     },
   ],
@@ -162,7 +162,7 @@ export const guidelinesContent: ContentPageData = {
     {
       heading: "2. No guaranteed financial returns",
       paragraphs: [
-        "OneRaise funds projects, not investments. A campaign may not promise donors a financial return, interest, or profit share on their pledge.",
+        "OneRaise funds projects, not investments. A campaign may not promise donors a financial return, interest, or profit share on their donation.",
       ],
     },
     {
@@ -180,7 +180,7 @@ export const guidelinesContent: ContentPageData = {
     {
       heading: "5. Identity verification is not optional",
       paragraphs: [
-        "A creator's payout account must be verified before any milestone can release to it. Campaigns from unverified creators can publish a draft but cannot accept pledges until verification clears.",
+        "A creator's payout account must be verified before any milestone can release to it. Campaigns from unverified creators can publish a draft but cannot accept donations until verification clears.",
       ],
     },
     {
@@ -197,16 +197,16 @@ export const howEscrowWorksContent: ContentPageData = {
   title: "How escrow works on OneRaise",
   updated: "Last updated 1 August 2026",
   intro:
-    "The short version: your pledge doesn't go to the creator when you make it. It goes into escrow, and releases in pieces as the creator proves each stage of the work.",
+    "The short version: your donation doesn't go to the creator when you make it. It goes into escrow, and releases in pieces as the creator proves each stage of the work.",
   sections: [
     {
-      heading: "The stages of a pledge",
+      heading: "The stages of a donation",
       paragraphs: [
-        "A pledge moves through four stages, the same way for every campaign on the platform.",
+        "A donation moves through four stages, the same way for every campaign on the platform.",
       ],
       list: [
-        "Pledged — you pick a tier and pay. The charge settles, and the full amount moves into escrow.",
-        "Held — nothing releases at launch. Your pledge sits against the campaign's total until a milestone it funds is submitted.",
+        "Donated — you pick a tier and pay. The charge settles, and the full amount moves into escrow.",
+        "Held — nothing releases at launch. Your donation sits against the campaign's total until a milestone it funds is submitted.",
         "Submitted — the creator posts evidence for a milestone: photographs, receipts, a written note, matched against the terms that stage was funded on. A dispute window opens, typically 72 hours.",
         "Released or disputed — if the window closes with no dispute, that milestone's share of escrow moves to the creator automatically. If a donor disputes it, the whole milestone freezes until a moderator records a decision.",
       ],
@@ -214,7 +214,7 @@ export const howEscrowWorksContent: ContentPageData = {
     {
       heading: "Why stages, not one lump sum",
       paragraphs: [
-        "A creator who is paid everything up front has little reason to finish stage two once stage one is done. Splitting the raise into milestones means a creator is only ever holding the money for work they have already shown, and a donor's remaining pledge stays recoverable if a project stalls.",
+        "A creator who is paid everything up front has little reason to finish stage two once stage one is done. Splitting the raise into milestones means a creator is only ever holding the money for work they have already shown, and a donor's remaining donation stays recoverable if a project stalls.",
       ],
     },
     {
@@ -226,7 +226,7 @@ export const howEscrowWorksContent: ContentPageData = {
     {
       heading: "What happens if a milestone fails",
       paragraphs: [
-        "If a moderator upholds a dispute, or a creator misses a milestone's deadline without submitting evidence, that stage's held funds are refunded to every donor, split in proportion to what they pledged. Later, not-yet-funded stages simply never charge — a partially completed campaign never takes money for work it never attempted.",
+        "If a moderator upholds a dispute, or a creator misses a milestone's deadline without submitting evidence, that stage's held funds are refunded to every donor, split in proportion to what they donated. Later, not-yet-funded stages simply never charge — a partially completed campaign never takes money for work it never attempted.",
       ],
     },
   ],
@@ -242,7 +242,7 @@ export const escrowAndRefundPolicyContent: ContentPageData = {
     {
       heading: "Escrow custody",
       paragraphs: [
-        "Funds pledged to a campaign are held by our payment processor in a segregated escrow account, separate from OneRaise's operating funds, until a milestone they fund either releases or is refunded.",
+        "Funds donated to a campaign are held by our payment processor in a segregated escrow account, separate from OneRaise's operating funds, until a milestone they fund either releases or is refunded.",
       ],
     },
     {
@@ -254,7 +254,7 @@ export const escrowAndRefundPolicyContent: ContentPageData = {
     {
       heading: "Refund triggers",
       paragraphs: [
-        "A donor's share of a milestone is refunded, pro rata to their pledge, when any of the following occurs:",
+        "A donor's share of a milestone is refunded, pro rata to their donation, when any of the following occurs:",
       ],
       list: [
         "A moderator upholds a dispute against that milestone",

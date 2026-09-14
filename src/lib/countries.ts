@@ -1,4 +1,4 @@
-/** Countries an account can be opened from, and the currency each pledges in. */
+/** Countries an account can be opened from, and the currency each donations in. */
 export const COUNTRIES: { name: string; currency: string }[] = [
   { name: "Nigeria", currency: "NGN · Nigerian naira" },
   { name: "Ghana", currency: "GHS · Ghanaian cedi" },

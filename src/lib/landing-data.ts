@@ -7,7 +7,7 @@
 export const howItWorksSteps = [
   {
     number: "01",
-    title: "A donor pledges",
+    title: "A donor donations",
     body: "They pick a tier and pay. The money goes to escrow, not to the creator's account.",
   },
   {

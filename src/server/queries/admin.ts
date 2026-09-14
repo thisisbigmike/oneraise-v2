@@ -483,7 +483,7 @@ export async function getModerationQueue(): Promise<{ rows: ModerationCampaign[]
         {
           value: "pause",
           label: "Pause and warn the creator",
-          description: "No new pledges for 7 days. Escrow holds. Creator must fix the listed breaches.",
+          description: "No new donations for 7 days. Escrow holds. Creator must fix the listed breaches.",
         },
         { value: "dismiss", label: "Dismiss the reports", description: "Campaign stays live. Reporters are told no breach was found." },
       ],
@@ -678,7 +678,7 @@ export async function getUserProfile(userId: number): Promise<UserProfileData | 
     suspended: u.suspended_at != null,
     figures: [
       { label: "In escrow", value: usd(held) },
-      { label: "Lifetime pledged", value: usd(lifetime) },
+      { label: "Lifetime donated", value: usd(lifetime) },
       { label: "Refunded", value: usd(refunded) },
       { label: "Disputes raised", value: count(disputesRaised) },
     ],

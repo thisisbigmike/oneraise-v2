@@ -30,7 +30,7 @@ function RoleFork({ role, setRole }: { role: Role; setRole: (r: Role) => void })
       key: "donor",
       icon: "circle-dollar-sign",
       title: "I want to fund projects",
-      body: "Pledge to a campaign, review each milestone before it releases, and get your share back if a stage fails.",
+      body: "Donation to a campaign, review each milestone before it releases, and get your share back if a stage fails.",
     },
     {
       key: "creator",
@@ -170,7 +170,7 @@ export function SignUpView({
             </div>
             <div style={{ display: "flex", flexDirection: "column", marginTop: 36, borderTop: "1px solid hsl(var(--border))" }}>
               {[
-                { n: "01", t: "A donor pledges", b: "The amount is held in escrow. Nothing reaches the creator yet." },
+                { n: "01", t: "A donor donations", b: "The amount is held in escrow. Nothing reaches the creator yet." },
                 { n: "02", t: "A creator submits a stage", b: "Evidence of the work goes up. The milestone reads In review." },
                 { n: "03", t: "Escrow releases", b: "Donors are notified and have 72 hours to dispute. Then the funds move." },
               ].map((row, i, arr) => (
@@ -189,7 +189,7 @@ export function SignUpView({
         ) : next ? (
           <CampaignContextPanel
             eyebrow="You were viewing"
-            heading="Your pledge is waiting"
+            heading="Your donation is waiting"
             body="Finish setting up and you land straight back on this campaign to place it. Nothing is charged until funding closes."
             campaign={campaign}
           />
@@ -200,7 +200,7 @@ export function SignUpView({
             body={
               role === "creator"
                 ? "Your campaign looks like this: a goal, split into stages, each releasing only when donors have seen the work."
-                : "A pledge is held rather than paid. The creator draws one milestone at a time, and only after donors have had 72 hours to review the work."
+                : "A donation is held rather than paid. The creator draws one milestone at a time, and only after donors have had 72 hours to review the work."
             }
             campaign={campaign}
           />
@@ -347,7 +347,7 @@ export function SignUpView({
                 </span>
               </div>
               <span id="su-country-note" style={{ fontSize: 12, lineHeight: 1.5, color: "hsl(var(--muted-foreground))" }}>
-                Sets the currency you pledge in and the campaigns you are eligible to fund. Raising funds later needs this to match your payout account.
+                Sets the currency you donate in and the campaigns you are eligible to fund. Raising funds later needs this to match your payout account.
               </span>
               <FieldError message={errors.country} />
             </div>

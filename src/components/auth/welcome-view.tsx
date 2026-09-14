@@ -6,7 +6,7 @@ import { Avatar } from "@/components/ui/avatar";
 import type { ContextCampaign } from "@/lib/view-models";
 
 const DONOR_STEPS = [
-  { n: "01", t: "Pledges sit in escrow", b: "Pick an amount. It is held, not paid, until a milestone is approved." },
+  { n: "01", t: "Donations sit in escrow", b: "Pick an amount. It is held, not paid, until a milestone is approved." },
   { n: "02", t: "You review each release", b: "An email arrives when a stage is submitted. You have 72 hours to dispute it." },
   { n: "03", t: "Failed stages refund", b: "If a campaign stalls, your share of the remaining escrow returns to your card." },
 ];
@@ -66,7 +66,7 @@ export function WelcomeView({
           heading={next ? "Pick up where you left off" : "A campaign to start with"}
           body={
             next
-              ? "Your pledge hasn't been placed yet. Choose an amount on the campaign page and confirm it — nothing is charged until funding closes."
+              ? "Your donation hasn't been placed yet. Choose an amount on the campaign page and confirm it — nothing is charged until funding closes."
               : "Every stage on this campaign releases only after its donors have seen the work."
           }
           campaign={campaign}
@@ -86,7 +86,7 @@ export function WelcomeView({
         </h2>
         <p style={{ margin: 0, fontSize: 15, lineHeight: 1.6, color: "hsl(var(--muted-foreground))", maxWidth: "46ch" }}>
           Signed up as a {creator ? "creator" : "donor"}, {firstName}. Three things are worth knowing before your first{" "}
-          {creator ? "campaign" : "pledge"}.
+          {creator ? "campaign" : "donation"}.
         </p>
       </div>
 
