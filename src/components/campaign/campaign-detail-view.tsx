@@ -763,7 +763,7 @@ export function CampaignDetailView({ detail, viewer }: { detail: CampaignDetail;
           }
         />
 
-        <div style={{ padding: "44px 120px 64px" }}>
+        <div style={{ padding: "44px clamp(24px, 6vw, 120px) 64px" }}>
           {pledgedMessage && (
             <div style={{ marginBottom: 24 }}>
               <FormSuccess message={pledgedMessage}>
@@ -821,9 +821,24 @@ export function CampaignDetailView({ detail, viewer }: { detail: CampaignDetail;
             </div>
           </div>
 
-          <div style={{ display: "grid", gridTemplateColumns: "792px 384px", gap: 24, alignItems: "start", marginTop: 36 }}>
+          {/*
+           * 792 + 24 + 384 is the 1440 artboard, and as fixed pixels it overflowed
+           * every viewport from 1024 (where this composition takes over from the
+           * mobile one) to 1366. As tracks it resolves to exactly those numbers at
+           * 1440 and gives the sidebar its 384 first below that, so the story
+           * column is the one that gives ground.
+           */}
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "minmax(0, 1fr) minmax(min-content, 384px)",
+              gap: 24,
+              alignItems: "start",
+              marginTop: 36,
+            }}
+          >
             <div style={{ display: "flex", flexDirection: "column", gap: 36, minWidth: 0 }}>
-              <ImagePlaceholder caption={detail.heroPlaceholder} style={{ width: 792, height: 495, borderRadius: 12 }} />
+              <ImagePlaceholder caption={detail.heroPlaceholder} style={{ width: "100%", aspectRatio: "792 / 495", borderRadius: 12 }} />
 
               <div
                 style={{

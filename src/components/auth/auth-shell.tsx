@@ -27,17 +27,33 @@ export function AuthShell({
       {/* Desktop */}
       <div className={styles.desktopOnly}>
         <PillNav end={topBarRight} />
-        <div style={{ display: "grid", gridTemplateColumns: "640px 1fr" }}>
-          <div style={{ padding: "64px 120px", display: "flex", flexDirection: "column", gap: 28, minHeight: "calc(100vh - 78px)" }}>
+        {/*
+         * `640px 1fr` overflowed between 1024 and 1440: the context panel's own
+         * min-content is wider than the leftover `1fr` there. Giving the panel
+         * that min-content as its floor makes the task column yield instead, and
+         * still resolves to 640 / 800 on the 1440 artboard.
+         */}
+        <div style={{ display: "grid", gridTemplateColumns: "minmax(0, 640px) minmax(min-content, 1fr)" }}>
+          <div
+            style={{
+              padding: "64px clamp(24px, 6vw, 120px)",
+              display: "flex",
+              flexDirection: "column",
+              gap: 28,
+              minWidth: 0,
+              minHeight: "calc(100vh - 78px)",
+            }}
+          >
             {children}
           </div>
           <div
             style={{
               background: "hsl(var(--secondary))",
               borderLeft: "1px solid hsl(var(--border))",
-              padding: 56,
+              padding: "clamp(24px, 4vw, 56px)",
               display: "flex",
               flexDirection: "column",
+              minWidth: 0,
             }}
           >
             {contextPanel}
