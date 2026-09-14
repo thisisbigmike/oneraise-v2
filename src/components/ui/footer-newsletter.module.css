@@ -1,0 +1,293 @@
+/*
+ * footer-newsletter.module.css — the landing page's closing footer, with the
+ * newsletter card on top of the link columns.
+ *
+ * Ported from a Tailwind original. The "glass effect" of the source becomes
+ * the system's own surface + hairline + elevation, since this kit has no
+ * glassmorphism treatment and colours.css forbids inventing one.
+ */
+
+.footer {
+  position: relative;
+  isolation: isolate;
+  width: 100%;
+  padding: 72px 0 32px;
+  border-top: 1px solid hsl(var(--border));
+  background-color: hsl(var(--background));
+  color: hsl(var(--foreground));
+}
+
+/* Two soft sage washes, the system's stand-in for the original's blurred
+   colour blobs. Decorative only. */
+.glow {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  pointer-events: none;
+  background:
+    radial-gradient(40rem 20rem at 22% 28%, hsl(var(--secondary) / 0.55), transparent 70%),
+    radial-gradient(36rem 18rem at 78% 76%, hsl(var(--secondary) / 0.4), transparent 70%);
+}
+
+.inner {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 48px;
+}
+
+/* --- Newsletter card ------------------------------------------------------ */
+
+.card {
+  display: grid;
+  grid-template-columns: 1fr;
+  align-items: center;
+  gap: 28px;
+  padding: 28px;
+  border: 1px solid hsl(var(--border));
+  border-radius: var(--radius-lg);
+  background-color: hsl(var(--surface));
+  box-shadow: var(--shadow-sm);
+}
+
+.cardBody {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  min-width: 0;
+}
+
+.cardTitle {
+  margin: 0;
+  font-size: 26px;
+  line-height: 1.25;
+  letter-spacing: -0.014em;
+  font-weight: 600;
+}
+
+.cardText {
+  margin: 0;
+  max-width: 52ch;
+  color: hsl(var(--muted-foreground));
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.formRow {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.formField {
+  flex: 1;
+  min-width: 0;
+}
+
+.formNote {
+  color: hsl(var(--muted-foreground));
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.cardMedia {
+  display: none;
+}
+
+.mediaFrame {
+  position: relative;
+  width: 320px;
+  max-width: 100%;
+  aspect-ratio: 4 / 3;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  border: 1px solid hsl(var(--border));
+}
+
+.mediaImage {
+  object-fit: cover;
+}
+
+/* --- Columns -------------------------------------------------------------- */
+
+.columns {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 32px;
+}
+
+.brand {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.wordmarkRow {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: hsl(var(--primary));
+  font-size: 21px;
+  font-weight: 600;
+  letter-spacing: -0.014em;
+  text-decoration: none;
+  width: fit-content;
+}
+
+.mark {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  flex-shrink: 0;
+  border-radius: 999px;
+  background-color: hsl(var(--primary));
+  color: hsl(var(--primary-foreground));
+  font-size: 14px;
+  letter-spacing: 0;
+}
+
+.brandText {
+  max-width: 40ch;
+  color: hsl(var(--muted-foreground));
+  font-size: 14px;
+  line-height: 1.6;
+  text-wrap: pretty;
+}
+
+.socials {
+  display: flex;
+  gap: 10px;
+}
+
+.social {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border: 1px solid hsl(var(--border));
+  border-radius: 999px;
+  background-color: hsl(var(--surface));
+  color: hsl(var(--primary));
+  transition:
+    background-color var(--duration-control) var(--ease-out),
+    color var(--duration-control) var(--ease-out);
+}
+
+.social:hover {
+  background-color: hsl(var(--secondary));
+  color: hsl(var(--primary-hover));
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.columnTitle {
+  color: hsl(var(--muted-foreground));
+}
+
+.columnList {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.link {
+  color: hsl(var(--foreground));
+  font-size: 14px;
+  text-decoration: none;
+}
+
+.link:hover {
+  color: hsl(var(--primary-hover));
+}
+
+/* --- Legal ---------------------------------------------------------------- */
+
+.legal {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding-top: 24px;
+  border-top: 1px solid hsl(var(--border));
+  color: hsl(var(--muted-foreground));
+  font-size: 12px;
+  letter-spacing: 0.02em;
+  text-align: center;
+}
+
+.legalLinks {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 16px;
+}
+
+.legalLink {
+  color: hsl(var(--muted-foreground));
+  font-size: 12px;
+  text-decoration: none;
+}
+
+.legalLink:hover {
+  color: hsl(var(--primary-hover));
+}
+
+/* --- Desktop -------------------------------------------------------------- */
+
+@media (min-width: 1024px) {
+  .footer {
+    padding: 96px 0 40px;
+  }
+
+  .inner {
+    padding: 0 120px;
+    gap: 64px;
+  }
+
+  .card {
+    grid-template-columns: minmax(0, 1fr) auto;
+    padding: 40px;
+    gap: 40px;
+  }
+
+  .cardTitle {
+    font-size: 30px;
+  }
+
+  .formRow {
+    flex-direction: row;
+    align-items: center;
+  }
+
+  .cardMedia {
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  .columns {
+    grid-template-columns: minmax(0, 1.4fr) repeat(3, minmax(0, 1fr));
+    gap: 48px;
+  }
+
+  .legal {
+    flex-direction: row;
+    justify-content: space-between;
+    text-align: left;
+  }
+}

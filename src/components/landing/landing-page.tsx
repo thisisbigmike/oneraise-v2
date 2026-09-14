@@ -5,7 +5,7 @@ import { EscrowBand } from "./escrow-band";
 import { LiveCampaigns } from "./live-campaigns";
 import { CreatorSection } from "./creator-section";
 import { CtaBand } from "./cta-band";
-import { Footer } from "./footer";
+import { FooterNewsletter } from "@/components/ui/footer-newsletter";
 import { getLandingData } from "@/server/queries/public";
 
 export interface LandingPageProps {
@@ -29,7 +29,7 @@ export async function LandingPage({
       <LiveCampaigns campaigns={live} totalLive={stats.liveCount} />
       <CreatorSection />
       <CtaBand />
-      <Footer />
+      <FooterNewsletter />
     </div>
   );
 }

@@ -372,6 +372,7 @@ export function SignUpView({
               <div id="su-rules" style={{ display: "flex", flexWrap: "wrap", gap: "6px 20px" }}>
                 <Rule met={password.length >= 12} label="12 characters or more" />
                 <Rule met={/\d/.test(password)} label="Contains a number" />
+                <Rule met={/[^a-zA-Z0-9]/.test(password)} label="Contains a special character" />
               </div>
               <FieldError message={errors.password} />
             </div>

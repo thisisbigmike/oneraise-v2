@@ -262,6 +262,14 @@ CREATE TABLE IF NOT EXISTS audit_log (
   source TEXT NOT NULL
 );
 
+CREATE TABLE IF NOT EXISTS newsletter_subscribers (
+  id INTEGER PRIMARY KEY,
+  email TEXT NOT NULL UNIQUE COLLATE NOCASE,
+  user_id INTEGER REFERENCES users(id),
+  created_at INTEGER NOT NULL,
+  unsubscribed_at INTEGER
+);
+
 CREATE TABLE IF NOT EXISTS contact_messages (
   id INTEGER PRIMARY KEY,
   user_id INTEGER REFERENCES users(id),

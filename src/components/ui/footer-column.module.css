@@ -1,0 +1,276 @@
+/*
+ * footer-column.module.css — the four-column site footer.
+ *
+ * Ported from a Tailwind original onto the design system: every colour is a
+ * token from colors.css, the breakpoints match responsive.module.css (1024px),
+ * and spacing uses the system's scale. No hex values, per colours.css.
+ */
+
+.footer {
+  width: 100%;
+  margin-top: 64px;
+  border-top: 1px solid hsl(var(--border));
+  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+  background-color: hsl(var(--secondary) / 0.45);
+}
+
+.inner {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 56px 20px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+
+.columns {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 32px;
+}
+
+/* --- Brand ---------------------------------------------------------------- */
+
+.brand {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  text-align: center;
+}
+
+.wordmark {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: hsl(var(--primary));
+  font-size: 24px;
+  font-weight: 600;
+  letter-spacing: -0.014em;
+  text-decoration: none;
+}
+
+.mark {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  flex-shrink: 0;
+  border-radius: 999px;
+  background-color: hsl(var(--primary));
+  color: hsl(var(--primary-foreground));
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0;
+}
+
+.description {
+  max-width: 46ch;
+  color: hsl(var(--muted-foreground));
+  font-size: 14px;
+  line-height: 1.6;
+  text-wrap: pretty;
+}
+
+.socials {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+
+.social {
+  display: flex;
+  color: hsl(var(--primary));
+  transition: color var(--duration-control) var(--ease-out);
+}
+
+.social:hover {
+  color: hsl(var(--primary-hover));
+}
+
+/* --- Link columns --------------------------------------------------------- */
+
+.links {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 32px;
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  text-align: center;
+}
+
+.columnTitle {
+  color: hsl(var(--muted-foreground));
+}
+
+.columnList {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.link {
+  color: hsl(var(--foreground));
+  font-size: 14px;
+  text-decoration: none;
+  transition: color var(--duration-control) var(--ease-out);
+}
+
+.link:hover {
+  color: hsl(var(--primary-hover));
+}
+
+/* The live-chat dot: a single sanctioned use of the lime accent as a fill. */
+.liveLink {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.pulse {
+  position: relative;
+  display: inline-flex;
+  width: 8px;
+  height: 8px;
+  flex-shrink: 0;
+}
+
+.pulseRing {
+  position: absolute;
+  inset: 0;
+  border-radius: 999px;
+  background-color: hsl(var(--accent));
+  opacity: 0.75;
+  animation: footerPing 1.6s var(--ease-out) infinite;
+}
+
+.pulseDot {
+  position: relative;
+  display: inline-flex;
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background-color: hsl(var(--accent));
+}
+
+@keyframes footerPing {
+  75%,
+  100% {
+    transform: scale(2);
+    opacity: 0;
+  }
+}
+
+/* --- Contact -------------------------------------------------------------- */
+
+.contactRow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  color: hsl(var(--foreground));
+  font-size: 14px;
+  text-decoration: none;
+}
+
+.contactRow:hover {
+  color: hsl(var(--primary-hover));
+}
+
+.contactIcon {
+  display: flex;
+  flex-shrink: 0;
+  color: hsl(var(--primary));
+}
+
+.address {
+  font-style: normal;
+}
+
+/* --- Legal ---------------------------------------------------------------- */
+
+.legal {
+  display: flex;
+  flex-direction: column-reverse;
+  align-items: center;
+  gap: 12px;
+  padding-top: 24px;
+  border-top: 1px solid hsl(var(--border));
+  color: hsl(var(--muted-foreground));
+  font-size: 12px;
+  letter-spacing: 0.02em;
+  text-align: center;
+}
+
+.legalLinks {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 16px;
+}
+
+.legalLink {
+  color: hsl(var(--muted-foreground));
+  font-size: 12px;
+  text-decoration: none;
+}
+
+.legalLink:hover {
+  color: hsl(var(--primary-hover));
+}
+
+/* --- Desktop -------------------------------------------------------------- */
+
+@media (min-width: 1024px) {
+  .inner {
+    padding: 72px 120px 28px;
+    gap: 48px;
+  }
+
+  .columns {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+    gap: 56px;
+  }
+
+  .brand {
+    align-items: flex-start;
+    text-align: left;
+  }
+
+  .socials {
+    justify-content: flex-start;
+  }
+
+  .links {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .column {
+    text-align: left;
+  }
+
+  .liveLink,
+  .contactRow {
+    justify-content: flex-start;
+  }
+
+  .legal {
+    flex-direction: row;
+    justify-content: space-between;
+    text-align: left;
+  }
+}
+
+/* The ping is decorative; motion.css guards CSS animation globally, and this
+   repeats the guard so the dot simply sits still when motion is reduced. */
+@media (prefers-reduced-motion: reduce) {
+  .pulseRing {
+    animation: none;
+  }
+}

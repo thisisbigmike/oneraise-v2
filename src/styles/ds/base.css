@@ -94,13 +94,13 @@ li {
   list-style: none;
 }
 
+/* No underline in any state, here or on hover. Kept as a single low-specificity
+   rule so component classes (.ms-btn--primary and friends) still own their own
+   colour -- an `a:hover`/`a:visited` selector here would outrank them. */
 a {
   color: hsl(var(--primary));
   text-decoration: none;
   text-underline-offset: 4px;
-}
-a:hover {
-  text-decoration: underline;
 }
 
 code,
@@ -122,6 +122,9 @@ select,
 textarea {
   font: inherit;
   color: inherit;
+}
+button {
+  text-decoration: none;
 }
 hr {
   border: 0;

@@ -21,5 +21,6 @@ export function verifyPassword(password: string, stored: string): boolean {
 export function passwordProblem(password: string): string | null {
   if (password.length < 12) return "Use 12 characters or more.";
   if (!/\d/.test(password)) return "Include at least one number.";
+  if (!/[^a-zA-Z0-9]/.test(password)) return "Include at least one special character.";
   return null;
 }

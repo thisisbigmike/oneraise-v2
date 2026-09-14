@@ -97,6 +97,25 @@ export async function sendContactMessage(_prev: ActionState, formData: FormData)
   return { ok: true };
 }
 
+/** The monthly escrow note. Subscribing twice is not an error. */
+export async function subscribeToNewsletter(_prev: ActionState, formData: FormData): Promise<ActionState> {
+  const viewer = await getViewer();
+  const email = text(formData.get("email")).toLowerCase();
+  if (!EMAIL.test(email)) return { error: "Enter an email address we can send it to." };
+  const existing = get<{ id: number }>("SELECT id FROM newsletter_subscribers WHERE email = ?", email);
+  if (existing) {
+    run("UPDATE newsletter_subscribers SET unsubscribed_at = NULL, user_id = COALESCE(user_id, ?) WHERE id = ?", viewer?.id ?? null, existing.id);
+  } else {
+    run(
+      "INSERT INTO newsletter_subscribers (email, user_id, created_at) VALUES (?, ?, ?)",
+      email,
+      viewer?.id ?? null,
+      Date.now(),
+    );
+  }
+  return { ok: true, message: `Subscribed. The next monthly note goes to ${email}.` };
+}
+
 const REASONS = [
   "Not a real project",
   "Financial return promised",
