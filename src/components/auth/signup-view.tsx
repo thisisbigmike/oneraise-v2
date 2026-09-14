@@ -30,7 +30,7 @@ function RoleFork({ role, setRole }: { role: Role; setRole: (r: Role) => void })
       key: "donor",
       icon: "circle-dollar-sign",
       title: "I want to fund projects",
-      body: "Donation to a campaign, review each milestone before it releases, and get your share back if a stage fails.",
+      body: "Donate to a campaign, review each milestone before it releases, and get your share back if a stage fails.",
     },
     {
       key: "creator",

@@ -1,6 +1,6 @@
 "use client";
 
-import { useActionState, useCallback, useEffect, useState } from "react";
+import { useActionState, useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { Icon } from "@/components/ui/icon";
 import { PillNav } from "@/components/ui/pill-nav";
@@ -10,9 +10,10 @@ import { FundingProgress } from "@/components/campaign/funding-progress";
 import { BackerStack } from "@/components/campaign/backer-stack";
 import { ImagePlaceholder } from "@/components/ui/image-placeholder";
 import { AuthModal } from "@/components/auth/auth-modal";
-import { FormError, FormSuccess, SubmitButton } from "@/components/ui/form-status";
+import { FieldError, FormError, FormSuccess, SubmitButton } from "@/components/ui/form-status";
 import { createPledge, toggleFollow } from "@/server/actions/public";
-import { count } from "@/lib/format";
+import { count, usd } from "@/lib/format";
+import { MIN_DONATION, parseDonationAmount } from "@/lib/donation";
 import type { CampaignDetail, CampaignViewerState, DetailMilestone, Tier } from "@/lib/view-models";
 import styles from "@/styles/responsive.module.css";
 
@@ -287,8 +288,49 @@ function TabStrip({
     { key: "updates", label: mobile ? "Updates" : `Updates · ${count(updates)}` },
     { key: "backers", label: mobile ? "Backers" : `Backers · ${count(backers)}` },
   ];
+
+  const listRef = useRef<HTMLDivElement>(null);
+  const [ready, setReady] = useState(false);
+
+  /*
+   * Move the pill onto the active trigger. Measuring beats deriving it from the
+   * index: the labels are different widths, and different again on mobile.
+   *
+   * Both compositions are mounted at once and the breakpoint hides one, so the
+   * hidden strip measures zero — it is left alone until a resize reports real
+   * boxes, which is also what catches the web fonts landing and the strip being
+   * reflowed by its column.
+   */
+  useLayoutEffect(() => {
+    const list = listRef.current;
+    if (!list) return;
+
+    const place = () => {
+      const active = list.querySelector<HTMLElement>('[data-state="active"]');
+      if (!active || active.offsetWidth === 0) return;
+      list.style.setProperty("--ms-tab-x", `${active.offsetLeft}px`);
+      list.style.setProperty("--ms-tab-w", `${active.offsetWidth}px`);
+      setReady(true);
+    };
+
+    place();
+    const observer = new ResizeObserver(place);
+    // The triggers, not the indicator: observing what this writes to would
+    // feed back into itself.
+    for (const trigger of list.querySelectorAll(".ms-tabs__trigger")) observer.observe(trigger);
+    observer.observe(list);
+    return () => observer.disconnect();
+  }, [tab, mobile, updates, backers]);
+
   return (
-    <div className="ms-tabs__list" role="tablist" style={mobile ? { display: "flex", width: "100%" } : undefined}>
+    <div
+      className="ms-tabs__list"
+      role="tablist"
+      ref={listRef}
+      data-ready={ready ? "true" : "false"}
+      style={mobile ? { display: "flex", width: "100%" } : undefined}
+    >
+      <span className="ms-tabs__indicator" aria-hidden="true" />
       {tabs.map((t) => (
         <button
           key={t.key}
@@ -376,6 +418,125 @@ function TabContent({ tab, detail }: { tab: Tab; detail: CampaignDetail }) {
         <span className="numeric" style={{ fontSize: 13, color: "hsl(var(--muted-foreground))", paddingTop: 14 }}>
           and {count(detail.backerCount - detail.backers.length)} more, most recent first
         </span>
+      )}
+    </div>
+  );
+}
+
+/** A tier or a typed-in amount, reduced to what the rest of the flow needs. */
+type Choice = { tierId: number | null; value: number; amount: string; label: string };
+
+/**
+ * The "any amount" row. It is a radio in behaviour, so it sits in the same
+ * list as the tiers and takes the same selected treatment; the input only
+ * appears once the row is chosen, and it takes focus so a click lands you on
+ * the keyboard rather than needing a second one.
+ */
+function CustomAmountOption({
+  selected,
+  onSelect,
+  value,
+  onChange,
+  error,
+  compact,
+}: {
+  selected: boolean;
+  onSelect: () => void;
+  value: string;
+  onChange: (v: string) => void;
+  error: string | null;
+  compact?: boolean;
+}) {
+  const inputRef = useRef<HTMLInputElement>(null);
+  useEffect(() => {
+    if (selected) inputRef.current?.focus();
+  }, [selected]);
+
+  const describedBy = error ? "custom-amount-error" : undefined;
+  return (
+    <div
+      style={{
+        border: selected ? "1px solid hsl(var(--primary))" : "1px solid hsl(var(--border))",
+        borderRadius: "var(--radius-md)",
+        background: selected ? "hsl(var(--secondary))" : "hsl(var(--surface))",
+        overflow: "hidden",
+      }}
+    >
+      <button
+        type="button"
+        onClick={onSelect}
+        aria-pressed={selected}
+        style={{
+          border: 0,
+          background: "none",
+          padding: compact ? 14 : "12px 14px",
+          display: "flex",
+          alignItems: "center",
+          gap: compact ? 14 : 10,
+          cursor: "pointer",
+          textAlign: "left",
+          fontFamily: "inherit",
+          width: "100%",
+          minHeight: compact ? 44 : undefined,
+          color: "inherit",
+        }}
+      >
+        {compact && (
+          <span
+            aria-hidden="true"
+            style={{
+              width: 20,
+              height: 20,
+              borderRadius: 999,
+              border: selected ? "2px solid hsl(var(--primary))" : "2px solid hsl(var(--input))",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              flexShrink: 0,
+            }}
+          >
+            {selected && <span style={{ width: 10, height: 10, borderRadius: 999, background: "hsl(var(--primary))" }} />}
+          </span>
+        )}
+        <span style={{ display: "flex", flexDirection: "column", gap: 3, minWidth: 0 }}>
+          <span style={{ fontSize: 15, fontWeight: 600 }}>Any amount</span>
+          <span style={{ fontSize: 13, color: "hsl(var(--muted-foreground))" }}>
+            Give what you like — no reward
+          </span>
+        </span>
+      </button>
+
+      {selected && (
+        <div style={{ padding: compact ? "0 14px 14px" : "0 14px 12px", display: "flex", flexDirection: "column", gap: 6 }}>
+          <div style={{ position: "relative", display: "flex", alignItems: "center" }}>
+            <span
+              aria-hidden="true"
+              className="numeric"
+              style={{ position: "absolute", left: 12, fontSize: 15, color: "hsl(var(--muted-foreground))", pointerEvents: "none" }}
+            >
+              $
+            </span>
+            <input
+              ref={inputRef}
+              type="text"
+              inputMode="numeric"
+              autoComplete="off"
+              className="ms-input numeric"
+              aria-label="Custom donation amount in US dollars"
+              aria-invalid={error ? true : undefined}
+              aria-describedby={describedBy}
+              placeholder={String(MIN_DONATION)}
+              value={value}
+              onChange={(e) => onChange(e.target.value)}
+              style={{ width: "100%", paddingLeft: 26, height: compact ? 44 : undefined }}
+            />
+          </div>
+          {error && (
+            <span id="custom-amount-error" style={{ fontSize: 12, lineHeight: 1.45, color: "hsl(var(--destructive))" }}>
+              {error}
+            </span>
+          )}
+        </div>
       )}
     </div>
   );
@@ -509,12 +670,12 @@ function Dialog({
 /** The last step before a donation is recorded. */
 function PledgeConfirm({
   detail,
-  tier,
+  choice,
   onClose,
   onPledged,
 }: {
   detail: CampaignDetail;
-  tier: Tier;
+  choice: Choice;
   onClose: () => void;
   onPledged: (message: string) => void;
 }) {
@@ -542,8 +703,8 @@ function PledgeConfirm({
         }}
       >
         {[
-          { l: "Your donation", v: tier.amount },
-          { l: "Reward", v: tier.label },
+          { l: "Your donation", v: choice.amount },
+          { l: "Reward", v: choice.tierId == null ? "No reward — a straight donation" : choice.label },
           { l: "Releases", v: `One stage at a time · ${detail.milestones.length} stages` },
         ].map((row, i, arr) => (
           <div
@@ -566,10 +727,15 @@ function PledgeConfirm({
       </div>
       <form action={action} style={{ display: "flex", flexDirection: "column", gap: 12 }}>
         <input type="hidden" name="campaign" value={detail.slug} />
-        <input type="hidden" name="tier" value={tier.id} />
+        {choice.tierId == null ? (
+          <input type="hidden" name="amount" value={choice.value} />
+        ) : (
+          <input type="hidden" name="tier" value={choice.tierId} />
+        )}
         <FormError message={state.error} />
+        <FieldError message={state.fieldErrors?.amount} />
         <SubmitButton className="ms-btn ms-btn--primary ms-btn--lg" style={{ width: "100%" }} pendingLabel="Placing donation…">
-          Donate {tier.amount}
+          Donate {choice.amount}
         </SubmitButton>
       </form>
       <div style={{ display: "flex", gap: 10, alignItems: "flex-start", color: "hsl(var(--muted-foreground))" }}>
@@ -690,20 +856,37 @@ const CLOSED_LABEL: Partial<Record<CampaignDetail["status"], string>> = {
 export function CampaignDetailView({ detail, viewer }: { detail: CampaignDetail; viewer: CampaignViewerState }) {
   const [tabDesktop, setTabDesktop] = useState<Tab>("story");
   const [tabMobile, setTabMobile] = useState<Tab>("story");
-  const [selectedTier, setSelectedTier] = useState(detail.defaultTierIndex);
+  const [selectedTier, setSelectedTier] = useState<number | "custom">(detail.defaultTierIndex);
+  const [customAmount, setCustomAmount] = useState("");
   const [showAuthModal, setShowAuthModal] = useState(false);
   const [showTierSheet, setShowTierSheet] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
   const [evidenceFor, setEvidenceFor] = useState<DetailMilestone | null>(null);
   const [pledgedMessage, setPledgedMessage] = useState<string | null>(null);
 
-  const tier = detail.tiers[selectedTier] ?? detail.tiers[0];
+  const tier = selectedTier === "custom" ? undefined : (detail.tiers[selectedTier] ?? detail.tiers[0]);
+
+  /*
+   * What the CTA, the sheet summary and the confirm dialog all read from, so a
+   * tier and a typed-in amount travel through the rest of the flow the same
+   * way. `amount` is null while a custom entry is empty or invalid, which is
+   * what disables the button.
+   */
+  const parsedCustom = selectedTier === "custom" ? parseDonationAmount(customAmount) : null;
+  const choice: Choice | null =
+    selectedTier === "custom"
+      ? parsedCustom?.ok
+        ? { tierId: null, value: parsedCustom.amount, amount: usd(parsedCustom.amount), label: "Custom amount" }
+        : null
+      : tier
+        ? { tierId: tier.id, value: tier.amountValue, amount: tier.amount, label: tier.label }
+        : null;
   const returnTo = `/campaigns/${detail.slug}`;
   const signInHref = viewer.signedIn ? null : `/signin?next=${encodeURIComponent(returnTo)}`;
   const closedLabel = detail.canPledge ? null : (CLOSED_LABEL[detail.status] ?? "Not taking donations");
 
   const handleBackThis = () => {
-    if (!detail.canPledge || !tier) return;
+    if (!detail.canPledge || !choice) return;
     if (viewer.signedIn) setShowConfirm(true);
     else setShowAuthModal(true);
   };
@@ -1020,10 +1203,25 @@ export function CampaignDetailView({ detail, viewer }: { detail: CampaignDetail;
                       {detail.tiers.map((t, i) => (
                         <TierOption key={t.id} tier={t} selected={selectedTier === i} onSelect={() => setSelectedTier(i)} />
                       ))}
+                      <CustomAmountOption
+                        selected={selectedTier === "custom"}
+                        onSelect={() => setSelectedTier("custom")}
+                        value={customAmount}
+                        onChange={setCustomAmount}
+                        error={selectedTier === "custom" && customAmount.trim() !== "" && parsedCustom && !parsedCustom.ok
+                            ? parsedCustom.error
+                            : null}
+                      />
                     </div>
 
-                    <button type="button" className="ms-btn ms-btn--primary ms-btn--lg" style={{ width: "100%" }} onClick={handleBackThis}>
-                      {viewer.signedIn ? `Donation ${tier?.amount ?? ""}` : "Back this project"}
+                    <button
+                      type="button"
+                      className="ms-btn ms-btn--primary ms-btn--lg"
+                      style={{ width: "100%" }}
+                      onClick={handleBackThis}
+                      disabled={!choice}
+                    >
+                      {viewer.signedIn ? `Donate ${choice?.amount ?? ""}` : "Back this project"}
                     </button>
                   </>
                 ) : (
@@ -1350,17 +1548,28 @@ export function CampaignDetailView({ detail, viewer }: { detail: CampaignDetail;
               {detail.tiers.map((t, i) => (
                 <TierOption key={t.id} tier={t} selected={selectedTier === i} onSelect={() => setSelectedTier(i)} compact />
               ))}
+              <CustomAmountOption
+                selected={selectedTier === "custom"}
+                onSelect={() => setSelectedTier("custom")}
+                value={customAmount}
+                onChange={setCustomAmount}
+                error={selectedTier === "custom" && customAmount.trim() !== "" && parsedCustom && !parsedCustom.ok
+                    ? parsedCustom.error
+                    : null}
+                compact
+              />
             </div>
             <div style={{ display: "flex", alignItems: "baseline", justifyContent: "space-between", gap: 12, paddingTop: 12, borderTop: "1px solid hsl(var(--border))" }}>
               <span style={{ fontSize: 13, color: "hsl(var(--muted-foreground))" }}>Your donation</span>
               <span className="numeric" style={{ fontSize: 17, fontWeight: 600 }}>
-                {tier?.amount} · {detail.milestones.length} stages
+                {choice ? `${choice.amount} · ${detail.milestones.length} stages` : "—"}
               </span>
             </div>
             <button
               type="button"
               className="ms-btn ms-btn--primary"
               style={{ width: "100%", height: 48, fontSize: 15 }}
+              disabled={!choice}
               onClick={() => {
                 setShowTierSheet(false);
                 handleBackThis();
@@ -1375,9 +1584,9 @@ export function CampaignDetailView({ detail, viewer }: { detail: CampaignDetail;
         </div>
       )}
 
-      {showAuthModal && tier && (
+      {showAuthModal && choice && (
         <AuthModal
-          amountLabel={tier.amount}
+          amountLabel={choice.amount}
           campaignName={detail.title}
           returnTo={returnTo}
           onClose={() => setShowAuthModal(false)}
@@ -1385,8 +1594,8 @@ export function CampaignDetailView({ detail, viewer }: { detail: CampaignDetail;
         />
       )}
 
-      {showConfirm && tier && viewer.signedIn && (
-        <PledgeConfirm detail={detail} tier={tier} onClose={() => setShowConfirm(false)} onPledged={handlePledged} />
+      {showConfirm && choice && viewer.signedIn && (
+        <PledgeConfirm detail={detail} choice={choice} onClose={() => setShowConfirm(false)} onPledged={handlePledged} />
       )}
 
       {evidenceFor && <EvidenceDialog milestone={evidenceFor} onClose={() => setEvidenceFor(null)} />}

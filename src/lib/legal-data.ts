@@ -29,7 +29,7 @@ export const termsContent: ContentPageData = {
     {
       heading: "2. Accounts",
       paragraphs: [
-        "You need an account to donation or to publish a campaign. You are responsible for keeping your credentials and two-factor device secure, and for the accuracy of the information you give us at signup and in any identity check we ask a creator to complete.",
+        "You need an account to donate or to publish a campaign. You are responsible for keeping your credentials and two-factor device secure, and for the accuracy of the information you give us at signup and in any identity check we ask a creator to complete.",
       ],
     },
     {

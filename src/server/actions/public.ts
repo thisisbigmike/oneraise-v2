@@ -5,6 +5,7 @@ import { get, run } from "../db";
 import { getViewer } from "../auth";
 import { acceptsPledges, campaignBySlug } from "../domain";
 import { usd } from "@/lib/format";
+import { parseDonationAmount } from "@/lib/donation";
 import type { ActionState } from "@/lib/view-models";
 
 const text = (v: FormDataEntryValue | null) => (typeof v === "string" ? v.trim() : "");
@@ -17,17 +18,33 @@ export async function createPledge(_prev: ActionState, formData: FormData): Prom
   if (!c) return { error: "That campaign no longer exists." };
   if (!acceptsPledges(c)) return { error: "This campaign isn't taking donations right now." };
   if (viewer.creatorId != null && viewer.creatorId === c.creator_id) {
-    return { error: "You can't donation to your own campaign." };
+    return { error: "You can't donate to your own campaign." };
   }
-  const tierId = Number(formData.get("tier"));
-  const tier = get<{ id: number; amount: number; stock: number | null; taken: number }>(
-    `SELECT t.id, t.amount, t.stock, (SELECT COUNT(*) FROM pledges p WHERE p.tier_id = t.id) AS taken
-     FROM tiers t WHERE t.id = ? AND t.campaign_id = ?`,
-    tierId,
-    c.id,
-  );
-  if (!tier) return { error: "Choose an amount first." };
-  if (tier.stock != null && tier.taken >= tier.stock) return { error: "That tier has just sold out. Choose another." };
+  /*
+   * Either a tier or a typed-in amount. The custom path stores tier_id NULL,
+   * which the read side already renders as "Custom amount" — every join onto
+   * tiers is a LEFT JOIN for exactly this case.
+   */
+  const custom = text(formData.get("amount"));
+  let tierId: number | null = null;
+  let amount: number;
+
+  if (custom) {
+    const parsed = parseDonationAmount(custom);
+    if (!parsed.ok) return { fieldErrors: { amount: parsed.error } };
+    amount = parsed.amount;
+  } else {
+    const tier = get<{ id: number; amount: number; stock: number | null; taken: number }>(
+      `SELECT t.id, t.amount, t.stock, (SELECT COUNT(*) FROM pledges p WHERE p.tier_id = t.id) AS taken
+       FROM tiers t WHERE t.id = ? AND t.campaign_id = ?`,
+      Number(formData.get("tier")),
+      c.id,
+    );
+    if (!tier) return { error: "Choose an amount first." };
+    if (tier.stock != null && tier.taken >= tier.stock) return { error: "That tier has just sold out. Choose another." };
+    tierId = tier.id;
+    amount = tier.amount;
+  }
 
   const user = get<{ name: string; country: string; card_label: string | null }>(
     "SELECT name, country, card_label FROM users WHERE id = ?",
@@ -38,17 +55,17 @@ export async function createPledge(_prev: ActionState, formData: FormData): Prom
      VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
     c.id,
     viewer.id,
-    tier.id,
+    tierId,
     user.name,
     user.country,
-    tier.amount,
+    amount,
     user.card_label,
     Date.now(),
   );
   revalidatePath("/", "layout");
   return {
     ok: true,
-    message: `Your ${usd(tier.amount)} donation to ${c.title} is in. It's charged when funding closes and released one stage at a time.`,
+    message: `Your ${usd(amount)} donation to ${c.title} is in. It's charged when funding closes and released one stage at a time.`,
   };
 }
 
@@ -65,7 +82,7 @@ export async function toggleFollow(_prev: ActionState, formData: FormData): Prom
 }
 
 const TOPICS = [
-  "A donation or donation",
+  "A donation",
   "A campaign I'm running",
   "A dispute or milestone review",
   "My account",

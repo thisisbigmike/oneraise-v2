@@ -406,6 +406,7 @@ textarea.ms-input {
 
 /* --- Tabs ---------------------------------------------------------------- */
 .ms-tabs__list {
+  position: relative;
   display: inline-flex;
   align-items: center;
   gap: 4px;
@@ -414,9 +415,40 @@ textarea.ms-input {
   padding: 4px;
   color: hsl(var(--muted-foreground));
 }
+/*
+ * The active pill is one element that slides between triggers rather than a
+ * background that cross-fades on each. Tabs writes --ms-tab-x/-w from the
+ * active trigger's box; data-ready gates the transition so the first paint
+ * lands in place instead of gliding in from the left edge.
+ */
+.ms-tabs__indicator {
+  position: absolute;
+  top: 4px;
+  bottom: 4px;
+  left: 0;
+  z-index: 0;
+  width: var(--ms-tab-w, 0);
+  transform: translateX(var(--ms-tab-x, 0));
+  border-radius: var(--radius-full);
+  background-color: hsl(var(--surface));
+  box-shadow: var(--shadow-xs);
+  pointer-events: none;
+}
+.ms-tabs__list[data-ready="true"] .ms-tabs__indicator {
+  transition:
+    transform var(--duration-control) var(--ease-out),
+    width var(--duration-control) var(--ease-out);
+}
+/* Before it has been measured there is nothing to show: server-rendered markup
+   carries no --ms-tab-w, and the strip its breakpoint hides never gets one. */
+.ms-tabs__list:not([data-ready="true"]) .ms-tabs__indicator {
+  display: none;
+}
 /* Active tab is a surface pill on a sage track, not a green block — green never
    fills a large area, and a tab strip repeated across a page adds up. */
 .ms-tabs__trigger {
+  position: relative;
+  z-index: 1;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -435,8 +467,13 @@ textarea.ms-input {
     box-shadow var(--duration-control) var(--ease-out);
 }
 .ms-tabs__trigger[data-state="active"] {
-  background-color: hsl(var(--surface));
   color: hsl(var(--foreground));
+}
+/* Until the indicator takes over — first paint, and any strip that renders
+   without one — the active trigger paints the pill itself, so the strip is
+   never briefly missing one. */
+.ms-tabs__list:not([data-ready="true"]) .ms-tabs__trigger[data-state="active"] {
+  background-color: hsl(var(--surface));
   box-shadow: var(--shadow-xs);
 }
 .ms-tabs__trigger:disabled {
