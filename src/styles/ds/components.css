@@ -135,9 +135,6 @@
 .ms-input[aria-invalid="true"] {
   border-color: hsl(var(--destructive));
 }
-.ms-input[aria-invalid="true"]:focus-visible {
-  outline-color: hsl(var(--destructive));
-}
 textarea.ms-input {
   height: auto;
   min-height: 96px;

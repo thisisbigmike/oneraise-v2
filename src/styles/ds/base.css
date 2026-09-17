@@ -143,6 +143,13 @@ hr {
   border-radius: var(--radius-control);
 }
 
+/* An invalid field already has its destructive border. Do not surround it
+   with a second, same-colour focus outline: every form control uses this,
+   including inputs, selects, and textareas outside .ms-input. */
+:where(input, select, textarea)[aria-invalid="true"]:focus-visible {
+  outline: none;
+}
+
 ::selection {
   background-color: hsl(var(--sage));
   color: hsl(var(--ink));
