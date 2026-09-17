@@ -117,47 +117,124 @@
   border-color: hsl(var(--canvas) / 0.35);
 }
 
-/* --- Mobile menu ---------------------------------------------------------- */
+/* --- Mobile drawer -------------------------------------------------------- */
 
-/*
- * Fixed, not absolute. The pill is sticky on most pages and fixed on the
- * landing hero; pinning the menu to the viewport puts it under the pill in
- * both cases without the panel having to know which one it is. 70px is the
- * mobile pill's offset (10) plus its height (52) plus a gap.
- */
-.menu {
+.drawerLayer {
   position: fixed;
+  inset: 0;
   z-index: 60;
-  top: 70px;
-  left: 14px;
-  right: 14px;
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-  padding: 8px;
-  border-radius: var(--radius-lg);
-  border: 1px solid hsl(var(--border));
-  background-color: hsl(var(--popover));
-  box-shadow: var(--shadow-lg);
+  display: grid;
+  grid-template-columns: 1fr min(22rem, calc(100vw - 48px));
+  visibility: hidden;
+  pointer-events: none;
+  transition: visibility 0s linear var(--duration-surface);
 }
 
-.menuLink {
+.drawerLayer[data-open="true"] {
+  visibility: visible;
+  pointer-events: auto;
+  transition-delay: 0s;
+}
+
+.drawerBackdrop {
+  grid-column: 1 / -1;
+  grid-row: 1;
+  border: 0;
+  padding: 0;
+  background: hsl(var(--scrim) / 0.5);
+  opacity: 0;
+  cursor: pointer;
+  transition: opacity var(--duration-surface) var(--ease-out);
+}
+
+.drawer {
+  grid-column: 2;
+  grid-row: 1;
+  z-index: 1;
+  display: flex;
+  min-height: 100dvh;
+  flex-direction: column;
+  overflow-y: auto;
+  border-left: 1px solid hsl(var(--border));
+  background-color: hsl(var(--surface));
+  box-shadow: var(--shadow-lg);
+  transform: translateX(100%);
+  transition: transform var(--duration-surface) var(--ease-out);
+}
+
+.drawerLayer[data-open="true"] .drawerBackdrop {
+  opacity: 1;
+}
+
+.drawerLayer[data-open="true"] .drawer {
+  transform: translateX(0);
+}
+
+.drawerHeader {
   display: flex;
   align-items: center;
-  height: 44px;
-  padding: 0 12px;
-  border-radius: var(--radius-md);
-  font-size: 14px;
-  color: hsl(var(--foreground));
-  text-decoration: none;
+  justify-content: space-between;
+  padding: max(20px, env(safe-area-inset-top)) 20px 16px;
+  border-bottom: 1px solid hsl(var(--border));
 }
 
-.menuLink:hover {
+.drawerTitle {
+  font-family: var(--font-display);
+  font-variation-settings: var(--font-display-variation);
+  font-size: var(--text-h3);
+  line-height: var(--text-h3--line-height);
+  font-weight: var(--text-h3--font-weight);
+}
+
+.drawerClose {
+  display: inline-flex;
+  width: 40px;
+  height: 40px;
+  align-items: center;
+  justify-content: center;
+  margin: -8px -8px -8px 0;
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius-md);
+  background: transparent;
+  color: hsl(var(--foreground));
+  cursor: pointer;
+}
+
+.drawerClose:hover {
   background-color: hsl(var(--secondary));
 }
 
-.menuDivider {
-  margin: 4px 4px 0;
-  padding-top: 4px;
+.drawerNav,
+.drawerAccount {
+  display: flex;
+  flex-direction: column;
+  padding: 12px;
+}
+
+.drawerAccount {
+  margin-top: auto;
+  padding-bottom: max(20px, env(safe-area-inset-bottom));
   border-top: 1px solid hsl(var(--border));
+}
+
+.drawerLink {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  min-height: 48px;
+  padding: 0 12px;
+  border-radius: var(--radius-md);
+  border: 0;
+  background: transparent;
+  font-size: 14px;
+  font-family: inherit;
+  text-align: left;
+  color: hsl(var(--foreground));
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.drawerLink:hover {
+  background-color: hsl(var(--secondary));
 }
