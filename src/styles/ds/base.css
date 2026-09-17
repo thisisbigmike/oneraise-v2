@@ -135,18 +135,10 @@ hr {
   margin: 0;
 }
 
-/* One focus treatment for the whole system. Ring is --primary, which clears
-   3:1 against canvas and surface in both themes. */
+/* Controls show focus through their own border, fill, or selected state.
+   Suppress the browser and design-system outer ring so fields never look
+   double-bordered. */
 :where(a, button, input, select, textarea, [tabindex]):focus-visible {
-  outline: 2px solid hsl(var(--ring));
-  outline-offset: 2px;
-  border-radius: var(--radius-control);
-}
-
-/* An invalid field already has its destructive border. Do not surround it
-   with a second, same-colour focus outline: every form control uses this,
-   including inputs, selects, and textareas outside .ms-input. */
-:where(input, select, textarea)[aria-invalid="true"]:focus-visible {
   outline: none;
 }
 

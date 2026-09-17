@@ -776,10 +776,6 @@ textarea.ms-input {
   border-color: hsl(var(--primary));
   background-color: hsl(var(--secondary));
 }
-.ms-amounts__opt input:focus-visible + .ms-amounts__tier {
-  outline: 2px solid hsl(var(--ring));
-  outline-offset: 2px;
-}
 .ms-amounts__value {
   font-size: var(--text-body);
   font-weight: 600;
