@@ -126,7 +126,7 @@ function Body({ history, next, compact }: { history: PayoutEntry[]; next: NextPa
       <div style={{ display: "flex", alignItems: "center", gap: 8, color: "hsl(var(--muted-foreground))" }}>
         <Icon name="lock" size={14} style={{ width: 14, height: 14 }} />
         <span style={{ fontSize: 12, lineHeight: 1.4 }}>
-          OneRaise takes a 5% platform fee at the moment a milestone releases. See payout terms for the full schedule.
+          OneRaise takes a 2.5% platform fee at the moment a milestone releases. See payout terms for the full schedule.
         </span>
       </div>
     </div>

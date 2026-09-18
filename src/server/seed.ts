@@ -1341,7 +1341,7 @@ export function seedDatabase(conn: DatabaseSync): void {
       );
       ids.push(id);
       if (releasedAt != null) {
-        const fee = Math.round(m.amount * 0.05);
+        const fee = Math.round(m.amount * 0.025);
         insert(
           "INSERT INTO payouts (milestone_id, gross, fee, net, account, released_at, paid_at) VALUES (?, ?, ?, ?, ?, ?, ?)",
           id,

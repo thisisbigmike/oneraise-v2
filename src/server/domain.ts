@@ -18,7 +18,7 @@ import type { CampaignStatus, Milestone } from "@/lib/types";
  * donation × released ÷ raised. Refunds are recorded per donation.
  */
 
-export const PLATFORM_FEE = 0.05;
+export const PLATFORM_FEE = 0.025;
 export const REVIEW_WINDOW = 3 * DAY;
 export const DISPUTE_DEADLINE = 5 * DAY;
 

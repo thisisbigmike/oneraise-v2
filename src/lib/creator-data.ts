@@ -100,8 +100,8 @@ export const stageReview = {
   disputesNote: "631 donors notified · 0 disputes raised",
   elapsedPct: 81,
   releasesTo: "$21,000",
-  platformFee: "−$1,050",
-  landsIn: "$19,950",
+  platformFee: "−$525",
+  landsIn: "$20,475",
   payoutNote: "Paid to Zenith ending 8841, two working days after release.",
 };
 
@@ -160,8 +160,8 @@ export const payoutHistory: PayoutEntry[] = [
     stage: "01 · Survey",
     releasedDate: "22 Jul 2026",
     gross: "$9,000",
-    fee: "−$450",
-    net: "$8,550",
+    fee: "−$225",
+    net: "$8,775",
     account: "Zenith ending 8841",
     status: "Paid",
   },
@@ -170,8 +170,8 @@ export const payoutHistory: PayoutEntry[] = [
 export const nextPayout = {
   stage: "02 · Pit relining",
   gross: "$21,000",
-  fee: "−$1,050",
-  net: "$19,950",
+  fee: "−$525",
+  net: "$20,475",
   note: "Lands two working days after the dispute window closes with no objection.",
 };
 

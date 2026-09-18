@@ -294,7 +294,7 @@ export const payoutTermsContent: ContentPageData = {
     {
       heading: "Platform fee",
       paragraphs: [
-        "OneRaise takes a 5% fee from each milestone at the moment it releases — nothing is charged until a stage actually pays out, so an unfunded or refunded milestone costs you nothing.",
+        "OneRaise takes a 2.5% fee from each milestone at the moment it releases — nothing is charged until a stage actually pays out, so an unfunded or refunded milestone costs you nothing.",
       ],
     },
     {
