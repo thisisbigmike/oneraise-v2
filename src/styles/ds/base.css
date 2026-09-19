@@ -17,6 +17,8 @@
 }
 
 html {
+  /* Remove the browser's mobile tap flash; controls keep their own states. */
+  -webkit-tap-highlight-color: transparent;
   /* The prefixed one is still what iOS Safari reads; the standard property is
      what every current engine reads. Both, or phones inflate text on rotate. */
   -webkit-text-size-adjust: 100%;
