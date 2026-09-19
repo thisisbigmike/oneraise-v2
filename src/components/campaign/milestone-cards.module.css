@@ -1,0 +1,129 @@
+.sectionHeader {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px 24px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid hsl(var(--border));
+}
+
+.sectionSummary {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+  min-width: 0;
+}
+
+.releaseCount {
+  font-size: 13px;
+  font-weight: 600;
+}
+
+/* Size cards by the space beside the donation panel, not by stage count. */
+.list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr));
+  gap: 16px;
+  margin: 24px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  padding: 18px;
+  border: 1px solid hsl(var(--border));
+  border-radius: var(--radius-lg);
+  background: hsl(var(--surface));
+  overflow-wrap: anywhere;
+}
+
+.card[data-current="true"] {
+  border-color: hsl(var(--primary));
+  background: hsl(var(--secondary));
+}
+
+.stage {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+.stage > span:first-child {
+  flex-shrink: 0;
+}
+
+.stageLabel {
+  color: hsl(var(--muted-foreground));
+}
+
+.card[data-current="true"] .stageLabel {
+  color: hsl(var(--primary-hover));
+}
+
+.amount {
+  font-size: 22px;
+  font-weight: 600;
+  line-height: 1.25;
+}
+
+.title {
+  margin: 6px 0 0;
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 1.3;
+  letter-spacing: -0.01em;
+}
+
+.description {
+  margin: 10px 0 20px;
+  color: hsl(var(--muted-foreground));
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.card[data-current="true"] .description {
+  color: hsl(var(--foreground));
+}
+
+.footer {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+  margin-top: auto;
+  padding-top: 14px;
+  border-top: 1px solid hsl(var(--border));
+}
+
+.card .badge {
+  max-width: 100%;
+  height: auto;
+  white-space: normal;
+  line-height: 1.4;
+}
+
+.meta {
+  color: hsl(var(--muted-foreground));
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.card .evidence {
+  max-width: 100%;
+  min-height: 40px;
+  height: auto;
+  padding: 8px 14px;
+  white-space: normal;
+  text-align: center;
+}
+
+.card .evidence:focus-visible {
+  outline: 2px solid hsl(var(--primary));
+  outline-offset: 3px;
+}

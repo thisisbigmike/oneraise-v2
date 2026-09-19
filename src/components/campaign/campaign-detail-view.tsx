@@ -16,6 +16,7 @@ import { count, usd } from "@/lib/format";
 import { MIN_DONATION, parseDonationAmount } from "@/lib/donation";
 import type { CampaignDetail, CampaignViewerState, DetailMilestone, Tier } from "@/lib/view-models";
 import styles from "@/styles/responsive.module.css";
+import milestoneStyles from "./milestone-cards.module.css";
 
 type Tab = "story" | "updates" | "backers";
 
@@ -75,89 +76,35 @@ function StageNode({ state }: { state: DetailMilestone["state"] }) {
 
 function DesktopMilestoneCard({
   milestone,
-  isLast,
   onViewEvidence,
 }: {
   milestone: DetailMilestone;
-  isLast: boolean;
   onViewEvidence: () => void;
 }) {
   const isCurrent = milestone.state === "current" || milestone.state === "submitted";
   return (
-    <li style={{ display: "flex", flexDirection: "column", minWidth: 0 }}>
-      <div style={{ display: "flex", alignItems: "center", paddingLeft: 12 }}>
-        <StageNode state={milestone.state} />
-        {!isLast && (
-          <span
-            style={{
-              height: 2,
-              flex: 1,
-              margin: "0 8px",
-              borderRadius: 999,
-              background:
-                milestone.state === "released" ? "hsl(var(--milestone-released))" : "hsl(var(--milestone-pending))",
-            }}
-          />
-        )}
+    <li className={milestoneStyles.card} data-current={isCurrent || undefined} aria-current={isCurrent ? "step" : undefined}>
+      <div className={milestoneStyles.stage}>
+        <span aria-hidden="true"><StageNode state={milestone.state} /></span>
+        <span className={`eyebrow ${milestoneStyles.stageLabel}`}>
+          Stage {milestone.stageNumber}{isCurrent ? " · current" : ""}
+        </span>
       </div>
-      <div
-        style={{
-          marginTop: 12,
-          padding: 12,
-          border: isCurrent ? "1px solid hsl(var(--primary))" : "1px solid transparent",
-          borderRadius: "var(--radius-lg)",
-          background: isCurrent ? "hsl(var(--secondary))" : undefined,
-        }}
-      >
-        <div className="eyebrow" style={{ color: isCurrent ? "hsl(var(--primary-hover))" : "hsl(var(--muted-foreground))" }}>
-          Stage {milestone.stageNumber}
-          {isCurrent ? " · current" : ""}
-        </div>
-        <div
-          className="numeric"
-          style={{
-            fontSize: 20,
-            fontWeight: 600,
-            marginTop: 8,
-            color: milestone.state === "pending" ? "hsl(var(--muted-foreground))" : undefined,
-          }}
-        >
-          {milestone.amount}
-        </div>
-        <div
-          className="font-display"
-          style={{
-            fontSize: 17,
-            fontWeight: 600,
-            letterSpacing: "-0.01em",
-            marginTop: 2,
-            color: milestone.state === "pending" ? "hsl(var(--muted-foreground))" : undefined,
-          }}
-        >
-          {milestone.label}
-        </div>
-        <p
-          style={{
-            margin: "8px 0 0",
-            fontSize: 13,
-            lineHeight: 1.5,
-            color: isCurrent ? "hsl(var(--foreground))" : "hsl(var(--muted-foreground))",
-            minHeight: 58,
-          }}
-        >
-          {milestone.description}
-        </p>
-        <span className={`ms-badge ms-badge--${milestone.badgeVariant}`} style={{ marginTop: 2 }}>
+      <div className={`numeric ${milestoneStyles.amount}`}>{milestone.amount}</div>
+      <h4 className={`font-display ${milestoneStyles.title}`}>{milestone.label}</h4>
+      <p className={milestoneStyles.description}>{milestone.description}</p>
+      <div className={milestoneStyles.footer}>
+        <span className={`ms-badge ms-badge--${milestone.badgeVariant} ${milestoneStyles.badge}`}>
           {milestone.badgeLabel}
         </span>
-        <div
-          className="numeric"
-          style={{ fontSize: 12, color: isCurrent ? "hsl(var(--foreground))" : "hsl(var(--muted-foreground))", marginTop: 8 }}
-        >
-          {milestone.meta}
-        </div>
+        <div className={`numeric ${milestoneStyles.meta}`}>{milestone.meta}</div>
         {(milestone.state === "submitted" || milestone.state === "released") && milestone.evidenceNote && (
-          <button type="button" className="ms-btn ms-btn--secondary ms-btn--sm" style={{ marginTop: 12 }} onClick={onViewEvidence}>
+          <button
+            type="button"
+            className={`ms-btn ms-btn--secondary ms-btn--sm ${milestoneStyles.evidence}`}
+            aria-label={`View evidence for stage ${milestone.stageNumber}: ${milestone.label}`}
+            onClick={onViewEvidence}
+          >
             View evidence
           </button>
         )}
@@ -1047,16 +994,7 @@ export function CampaignDetailView({ detail, viewer }: { detail: CampaignDetail;
                     padding: 24,
                   }}
                 >
-                  <div
-                    style={{
-                      display: "flex",
-                      alignItems: "flex-end",
-                      justifyContent: "space-between",
-                      gap: 24,
-                      paddingBottom: 20,
-                      borderBottom: "1px solid hsl(var(--border))",
-                    }}
-                  >
+                  <div className={milestoneStyles.sectionHeader}>
                     <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
                       <span className="eyebrow" style={{ color: "hsl(var(--muted-foreground))" }}>
                         Escrow, in stages
@@ -1065,21 +1003,23 @@ export function CampaignDetailView({ detail, viewer }: { detail: CampaignDetail;
                         Milestone releases
                       </h3>
                     </div>
-                    <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
+                    <div className={milestoneStyles.sectionSummary}>
+                      <span className={`numeric ${milestoneStyles.releaseCount}`}>
+                        {detail.releasedCount} of {detail.milestones.length} stages released
+                      </span>
                       <span className="numeric" style={{ fontSize: 13, color: "hsl(var(--muted-foreground))" }}>
-                        {detail.milestoneSummary}
+                        {detail.releasedValue} released · {detail.heldValue} in escrow
                       </span>
                       <Link href="/how-escrow-works" style={{ fontSize: 13 }}>
                         How escrow works
                       </Link>
                     </div>
                   </div>
-                  <ol style={{ display: "grid", gridTemplateColumns: `repeat(${detail.milestones.length}, 1fr)`, margin: "24px 0 0", padding: 0, listStyle: "none" }}>
-                    {detail.milestones.map((m, i) => (
+                  <ol className={milestoneStyles.list}>
+                    {detail.milestones.map((m) => (
                       <DesktopMilestoneCard
                         key={m.stageNumber}
                         milestone={m}
-                        isLast={i === detail.milestones.length - 1}
                         onViewEvidence={() => setEvidenceFor(m)}
                       />
                     ))}
