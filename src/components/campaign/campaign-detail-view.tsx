@@ -427,7 +427,7 @@ function TabContent({ tab, detail }: { tab: Tab; detail: CampaignDetail }) {
 type Choice = { tierId: number | null; value: number; amount: string; label: string };
 
 /**
- * The "any amount" row. It is a radio in behaviour, so it sits in the same
+ * The "custom amount" row. It is a radio in behaviour, so it sits in the same
  * list as the tiers and takes the same selected treatment; the input only
  * appears once the row is chosen, and it takes focus so a click lands you on
  * the keyboard rather than needing a second one.
@@ -498,12 +498,7 @@ function CustomAmountOption({
             {selected && <span style={{ width: 10, height: 10, borderRadius: 999, background: "hsl(var(--primary))" }} />}
           </span>
         )}
-        <span style={{ display: "flex", flexDirection: "column", gap: 3, minWidth: 0 }}>
-          <span style={{ fontSize: 15, fontWeight: 600 }}>Any amount</span>
-          <span style={{ fontSize: 13, color: "hsl(var(--muted-foreground))" }}>
-            Give what you like — no reward
-          </span>
-        </span>
+        <span style={{ fontSize: 15, fontWeight: 600 }}>Custom amount</span>
       </button>
 
       {selected && (
@@ -564,9 +559,8 @@ function TierOption({
         borderRadius: "var(--radius-md)",
         padding: compact ? 14 : "12px 14px",
         display: "flex",
-        flexDirection: compact ? "row" : "column",
-        alignItems: compact ? "center" : undefined,
-        gap: compact ? 14 : 3,
+        alignItems: "center",
+        gap: compact ? 14 : 12,
         cursor: tier.soldOut ? "not-allowed" : "pointer",
         opacity: tier.soldOut ? 0.55 : 1,
         background: selected ? "hsl(var(--secondary))" : "hsl(var(--surface))",
@@ -592,27 +586,12 @@ function TierOption({
           {selected && <span style={{ width: 10, height: 10, borderRadius: 999, background: "hsl(var(--primary))" }} />}
         </span>
       )}
-      <span style={{ flex: compact ? 1 : undefined, minWidth: 0, display: "flex", flexDirection: "column", gap: 2 }}>
-        {!compact && (
-          <span style={{ display: "flex", alignItems: "baseline", justifyContent: "space-between", gap: 12 }}>
-            <span className="numeric" style={{ fontSize: 15, fontWeight: 600 }}>
-              {tier.amount}
-            </span>
-            <span className="numeric" style={{ fontSize: 12, color: selected ? "hsl(var(--primary-hover))" : "hsl(var(--muted-foreground))" }}>
-              {tier.meta}
-            </span>
-          </span>
-        )}
-        {compact && (
-          <span className="numeric" style={{ fontSize: 15, fontWeight: 600 }}>
-            {tier.amount}
-          </span>
-        )}
-        <span style={{ fontSize: 13, color: selected ? "hsl(var(--foreground))" : "hsl(var(--muted-foreground))" }}>{tier.label}</span>
+      <span className="numeric" style={{ flex: 1, minWidth: 0, fontSize: 15, fontWeight: 600 }}>
+        {tier.amount}
       </span>
-      {compact && (
+      {tier.soldOut && (
         <span className="numeric" style={{ fontSize: 12, color: "hsl(var(--muted-foreground))" }}>
-          {tier.meta}
+          Sold out
         </span>
       )}
     </button>
@@ -1198,7 +1177,7 @@ export function CampaignDetailView({ detail, viewer }: { detail: CampaignDetail;
                   <>
                     <div style={{ display: "flex", flexDirection: "column", gap: 8, paddingTop: 16, borderTop: "1px solid hsl(var(--border))" }}>
                       <span className="eyebrow" style={{ color: "hsl(var(--muted-foreground))", marginBottom: 2 }}>
-                        Choose an amount
+                        Amount
                       </span>
                       {detail.tiers.map((t, i) => (
                         <TierOption key={t.id} tier={t} selected={selectedTier === i} onSelect={() => setSelectedTier(i)} />
@@ -1221,7 +1200,7 @@ export function CampaignDetailView({ detail, viewer }: { detail: CampaignDetail;
                       onClick={handleBackThis}
                       disabled={!choice}
                     >
-                      {viewer.signedIn ? `Donate ${choice?.amount ?? ""}` : "Back this project"}
+                      Donate
                     </button>
                   </>
                 ) : (
@@ -1490,7 +1469,7 @@ export function CampaignDetailView({ detail, viewer }: { detail: CampaignDetail;
               style={{ height: 48, padding: "0 22px", fontSize: 15 }}
               onClick={() => setShowTierSheet(true)}
             >
-              Back this
+              Donate
             </button>
           ) : (
             <span style={{ fontSize: 13, fontWeight: 500, color: "hsl(var(--muted-foreground))", textAlign: "right" }}>{closedLabel}</span>
@@ -1507,7 +1486,7 @@ export function CampaignDetailView({ detail, viewer }: { detail: CampaignDetail;
           />
           <div
             role="dialog"
-            aria-label="Choose an amount"
+            aria-label="Amount"
             style={{
               position: "absolute",
               left: 0,
@@ -1529,7 +1508,7 @@ export function CampaignDetailView({ detail, viewer }: { detail: CampaignDetail;
             <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: 12 }}>
               <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
                 <h3 className="font-display" style={{ fontSize: 24, lineHeight: 1.3, letterSpacing: "-0.01em", fontWeight: 600, margin: 0 }}>
-                  Choose an amount
+                  Amount
                 </h3>
                 <span style={{ fontSize: 13, color: "hsl(var(--muted-foreground))" }}>
                   Released to {detail.creator.name.split(" ")[0]} one stage at a time.
