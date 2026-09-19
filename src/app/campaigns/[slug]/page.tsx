@@ -8,7 +8,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const { slug } = await params;
   const meta = await getCampaignMeta(slug);
   if (!meta) return {};
-  return { title: `${meta.title} — OneRaise`, description: meta.summary };
+  return { title: `${meta.title} | OneRaise`, description: meta.summary };
 }
 
 export default async function CampaignDetailPage({ params }: { params: Promise<{ slug: string }> }) {

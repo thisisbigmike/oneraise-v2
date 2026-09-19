@@ -4,7 +4,7 @@ import { AuditLog } from "@/components/admin/audit-log";
 import { requireViewer } from "@/server/auth";
 import { getAuditLog } from "@/server/queries/admin";
 
-export const metadata: Metadata = { title: "Audit log — OneRaise Admin" };
+export const metadata: Metadata = { title: "Audit log | OneRaise Admin" };
 
 export default async function AdminAuditPage() {
   const viewer = await requireViewer("/admin/audit", ["admin"]);

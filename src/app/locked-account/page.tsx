@@ -4,7 +4,7 @@ import { lockedUntil, recentAttempts } from "@/server/account";
 import { requestNow } from "@/server/clock";
 import { clockTime, shortDate } from "@/lib/format";
 
-export const metadata: Metadata = { title: "Account locked — OneRaise" };
+export const metadata: Metadata = { title: "Account locked | OneRaise" };
 
 export default async function LockedAccountPage({ searchParams }: { searchParams: Promise<{ email?: string }> }) {
   const now = await requestNow();

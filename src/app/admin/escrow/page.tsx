@@ -4,7 +4,7 @@ import { EscrowLedger } from "@/components/admin/escrow-ledger";
 import { requireViewer } from "@/server/auth";
 import { getEscrowLedger } from "@/server/queries/admin";
 
-export const metadata: Metadata = { title: "Escrow — OneRaise Admin" };
+export const metadata: Metadata = { title: "Escrow | OneRaise Admin" };
 
 export default async function AdminEscrowPage() {
   const viewer = await requireViewer("/admin/escrow", ["admin"]);

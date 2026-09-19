@@ -4,7 +4,7 @@ import { AdminOverview, AdminTriageMobile } from "@/components/admin/admin-overv
 import { requireViewer } from "@/server/auth";
 import { getAdminOverview } from "@/server/queries/admin";
 
-export const metadata: Metadata = { title: "Overview — OneRaise Admin" };
+export const metadata: Metadata = { title: "Overview | OneRaise Admin" };
 
 export default async function AdminPage() {
   const viewer = await requireViewer("/admin", ["admin"]);

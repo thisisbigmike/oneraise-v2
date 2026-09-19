@@ -3,7 +3,7 @@ import { DonorDonationsPage } from "@/components/donor/donor-donations-page";
 import { requireViewer } from "@/server/auth";
 import { getDonorPledges, getReviewCount } from "@/server/queries/donor";
 
-export const metadata: Metadata = { title: "Your donations — OneRaise" };
+export const metadata: Metadata = { title: "Your donations | OneRaise" };
 
 export default async function DonorPledges() {
   const viewer = await requireViewer("/donor/donations", ["donor", "creator"]);

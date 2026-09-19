@@ -4,7 +4,7 @@ import { IdentityQueue } from "@/components/admin/identity-queue";
 import { requireViewer } from "@/server/auth";
 import { getIdentityQueue } from "@/server/queries/admin";
 
-export const metadata: Metadata = { title: "Identity — OneRaise Admin" };
+export const metadata: Metadata = { title: "Identity | OneRaise Admin" };
 
 export default async function AdminIdentityPage() {
   const viewer = await requireViewer("/admin/identity", ["admin"]);

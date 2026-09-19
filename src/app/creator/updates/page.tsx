@@ -3,7 +3,7 @@ import { CreatorUpdatesPage } from "@/components/creator/creator-updates-page";
 import { requireViewer } from "@/server/auth";
 import { getCreatorShell, getCreatorUpdates } from "@/server/queries/creator";
 
-export const metadata: Metadata = { title: "Updates — OneRaise" };
+export const metadata: Metadata = { title: "Updates | OneRaise" };
 
 export default async function CreatorUpdates() {
   const viewer = await requireViewer("/creator/updates", ["creator"]);

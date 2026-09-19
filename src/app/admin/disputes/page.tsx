@@ -4,7 +4,7 @@ import { DisputesQueue } from "@/components/admin/disputes-queue";
 import { requireViewer } from "@/server/auth";
 import { getDisputes } from "@/server/queries/admin";
 
-export const metadata: Metadata = { title: "Disputes — OneRaise Admin" };
+export const metadata: Metadata = { title: "Disputes | OneRaise Admin" };
 
 export default async function AdminDisputesPage() {
   const viewer = await requireViewer("/admin/disputes", ["admin"]);

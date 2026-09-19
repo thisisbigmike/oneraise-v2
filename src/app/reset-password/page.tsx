@@ -5,7 +5,7 @@ import { requestNow } from "@/server/clock";
 import { all } from "@/server/db";
 import { shortDate } from "@/lib/format";
 
-export const metadata: Metadata = { title: "Choose a new password — OneRaise" };
+export const metadata: Metadata = { title: "Choose a new password | OneRaise" };
 
 function browserOf(ua: string | null): string {
   if (!ua) return "Unknown browser";

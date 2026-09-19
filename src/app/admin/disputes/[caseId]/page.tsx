@@ -9,7 +9,7 @@ import { getDisputeCase } from "@/server/queries/admin";
 
 export async function generateMetadata({ params }: { params: Promise<{ caseId: string }> }): Promise<Metadata> {
   const { caseId } = await params;
-  return { title: `Case ${caseId.toUpperCase()} — OneRaise Admin` };
+  return { title: `Case ${caseId.toUpperCase()} | OneRaise Admin` };
 }
 
 export default async function AdminDisputeCasePage({ params }: { params: Promise<{ caseId: string }> }) {

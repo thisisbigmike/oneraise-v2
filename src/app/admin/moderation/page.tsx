@@ -4,7 +4,7 @@ import { ModerationQueue } from "@/components/admin/moderation-queue";
 import { requireViewer } from "@/server/auth";
 import { getModerationQueue } from "@/server/queries/admin";
 
-export const metadata: Metadata = { title: "Moderation — OneRaise Admin" };
+export const metadata: Metadata = { title: "Moderation | OneRaise Admin" };
 
 export default async function AdminModerationPage() {
   const viewer = await requireViewer("/admin/moderation", ["admin"]);

@@ -3,7 +3,7 @@ import { DonorRefundsPage } from "@/components/donor/donor-refunds-page";
 import { requireViewer } from "@/server/auth";
 import { getDonorRefunds, getReviewCount } from "@/server/queries/donor";
 
-export const metadata: Metadata = { title: "Refunds — OneRaise" };
+export const metadata: Metadata = { title: "Refunds | OneRaise" };
 
 export default async function DonorRefunds() {
   const viewer = await requireViewer("/donor/refunds", ["donor", "creator"]);

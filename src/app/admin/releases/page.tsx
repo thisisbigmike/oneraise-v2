@@ -4,7 +4,7 @@ import { ReleasesQueue } from "@/components/admin/releases-queue";
 import { requireViewer } from "@/server/auth";
 import { getReleaseQueue } from "@/server/queries/admin";
 
-export const metadata: Metadata = { title: "Releases — OneRaise Admin" };
+export const metadata: Metadata = { title: "Releases | OneRaise Admin" };
 
 export default async function AdminReleasesPage() {
   const viewer = await requireViewer("/admin/releases", ["admin"]);

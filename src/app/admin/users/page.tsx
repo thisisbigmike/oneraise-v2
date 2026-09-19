@@ -4,7 +4,7 @@ import { UserLookup } from "@/components/admin/user-lookup";
 import { requireViewer } from "@/server/auth";
 import { getUserProfile, searchUsers } from "@/server/queries/admin";
 
-export const metadata: Metadata = { title: "Users — OneRaise Admin" };
+export const metadata: Metadata = { title: "Users | OneRaise Admin" };
 
 export default async function AdminUsersPage({ searchParams }: { searchParams: Promise<{ q?: string; user?: string }> }) {
   const viewer = await requireViewer("/admin/users", ["admin"]);

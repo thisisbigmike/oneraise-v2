@@ -4,7 +4,7 @@ import { RefundsQueue } from "@/components/admin/refunds-queue";
 import { requireViewer } from "@/server/auth";
 import { getRefunds } from "@/server/queries/admin";
 
-export const metadata: Metadata = { title: "Refunds — OneRaise Admin" };
+export const metadata: Metadata = { title: "Refunds | OneRaise Admin" };
 
 export default async function AdminRefundsPage() {
   const viewer = await requireViewer("/admin/refunds", ["admin"]);

@@ -3,7 +3,7 @@ import { CreatorMilestonesPage } from "@/components/creator/creator-milestones-p
 import { requireViewer } from "@/server/auth";
 import { getCreatorMilestones, getCreatorShell } from "@/server/queries/creator";
 
-export const metadata: Metadata = { title: "Milestones — OneRaise" };
+export const metadata: Metadata = { title: "Milestones | OneRaise" };
 
 export default async function CreatorMilestones() {
   const viewer = await requireViewer("/creator/milestones", ["creator"]);

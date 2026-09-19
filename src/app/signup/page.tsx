@@ -5,7 +5,7 @@ import { getViewer, safeNext } from "@/server/auth";
 import { getContextCampaign } from "@/server/queries/public";
 import { campaignSlugFrom, homeFor } from "@/lib/roles";
 
-export const metadata: Metadata = { title: "Create an account — OneRaise" };
+export const metadata: Metadata = { title: "Create an account | OneRaise" };
 
 export default async function SignUpPage({
   searchParams,

@@ -4,7 +4,7 @@ import { CreatorSettings } from "@/components/creator/creator-settings";
 import { requireViewer } from "@/server/auth";
 import { getCreatorSettings, getCreatorShell } from "@/server/queries/creator";
 
-export const metadata: Metadata = { title: "Account settings — OneRaise" };
+export const metadata: Metadata = { title: "Account settings | OneRaise" };
 
 export default async function CreatorSettingsPage() {
   const viewer = await requireViewer("/creator/settings", ["creator"]);

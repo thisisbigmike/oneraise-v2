@@ -4,7 +4,7 @@ import { homeFor, requireViewer, safeNext } from "@/server/auth";
 import { getContextCampaign } from "@/server/queries/public";
 import { campaignSlugFrom } from "@/lib/roles";
 
-export const metadata: Metadata = { title: "Welcome — OneRaise" };
+export const metadata: Metadata = { title: "Welcome | OneRaise" };
 
 export default async function WelcomePage({ searchParams }: { searchParams: Promise<{ next?: string }> }) {
   const viewer = await requireViewer("/welcome");

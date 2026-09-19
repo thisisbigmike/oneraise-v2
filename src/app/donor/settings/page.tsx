@@ -3,7 +3,7 @@ import { DonorSettings } from "@/components/donor/donor-settings";
 import { requireViewer } from "@/server/auth";
 import { getDonorSettings, getReviewCount } from "@/server/queries/donor";
 
-export const metadata: Metadata = { title: "Account settings — OneRaise" };
+export const metadata: Metadata = { title: "Account settings | OneRaise" };
 
 export default async function DonorSettingsPage() {
   const viewer = await requireViewer("/donor/settings", ["donor", "creator"]);

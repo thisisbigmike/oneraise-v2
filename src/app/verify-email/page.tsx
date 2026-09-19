@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { VerifyView } from "@/components/auth/verify-view";
 import { homeFor, requireViewer } from "@/server/auth";
 
-export const metadata: Metadata = { title: "Verify your email — OneRaise" };
+export const metadata: Metadata = { title: "Verify your email | OneRaise" };
 
 export default async function VerifyEmailPage({
   searchParams,

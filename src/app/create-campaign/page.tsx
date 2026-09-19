@@ -3,7 +3,7 @@ import { redirect } from "next/navigation";
 import { CreateCampaignPage } from "@/components/marketing/create-campaign-page";
 import { getViewer } from "@/server/auth";
 
-export const metadata: Metadata = { title: "Start a campaign — OneRaise" };
+export const metadata: Metadata = { title: "Start a campaign | OneRaise" };
 
 export default async function CreateCampaign() {
   const viewer = await getViewer();

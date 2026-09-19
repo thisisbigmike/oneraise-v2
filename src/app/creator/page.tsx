@@ -4,7 +4,7 @@ import { requireViewer } from "@/server/auth";
 import { requestNow } from "@/server/clock";
 import { getCreatorOverview, getCreatorShell } from "@/server/queries/creator";
 
-export const metadata: Metadata = { title: "Creator — OneRaise" };
+export const metadata: Metadata = { title: "Creator | OneRaise" };
 
 export default async function CreatorPage() {
   const viewer = await requireViewer("/creator", ["creator"]);
