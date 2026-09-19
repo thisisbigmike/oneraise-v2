@@ -38,6 +38,10 @@ export function SidebarNav({
     <div
       style={{
         width: 248,
+        height: "100dvh",
+        position: "sticky",
+        top: 0,
+        alignSelf: "flex-start",
         flexShrink: 0,
         background: "hsl(var(--surface))",
         borderRight: "1px solid hsl(var(--border))",
@@ -48,6 +52,7 @@ export function SidebarNav({
       <div
         style={{
           height: 64,
+          flexShrink: 0,
           display: "flex",
           alignItems: "center",
           gap: 10,
@@ -69,20 +74,23 @@ export function SidebarNav({
         </Link>
         {brandBadge}
       </div>
-      {topSlot}
+      {topSlot && <div style={{ flexShrink: 0 }}>{topSlot}</div>}
       <div
         style={{
+          flex: 1,
+          minHeight: 0,
           padding: 12,
           display: "flex",
           flexDirection: "column",
           gap: 2,
           overflowY: "auto",
+          overscrollBehaviorY: "contain",
         }}
       >
         {resolvedGroups.map((group, gi) => (
           <div
             key={gi}
-            style={{ display: "flex", flexDirection: "column", gap: 2 }}
+            style={{ display: "flex", flexDirection: "column", gap: 2, flexShrink: 0 }}
           >
             {group.label && (
               <span
@@ -104,6 +112,7 @@ export function SidebarNav({
                   alignItems: "center",
                   gap: 10,
                   height: 40,
+                  flexShrink: 0,
                   padding: "0 12px",
                   borderRadius: "var(--radius-md)",
                   background: item.active ? "hsl(var(--secondary))" : undefined,
@@ -137,6 +146,7 @@ export function SidebarNav({
       <div
         style={{
           marginTop: "auto",
+          flexShrink: 0,
           padding: 12,
           borderTop: "1px solid hsl(var(--border))",
         }}
