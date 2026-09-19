@@ -1261,6 +1261,7 @@ export function CampaignDetailView({ detail, viewer }: { detail: CampaignDetail;
       <div className={styles.mobileOnly}>
         <PillNav
           size="sm"
+          float
           brand={
             <Link href="/discover" className="ms-btn ms-btn--ghost" style={{ width: 40, height: 40, padding: 0, flexShrink: 0 }} aria-label="Back">
               <Icon name="arrow-left" size={20} style={{ width: 20, height: 20 }} />
