@@ -370,8 +370,8 @@ function TabContent({ tab, detail }: { tab: Tab; detail: CampaignDetail }) {
   );
 }
 
-/** A tier or a typed-in amount, reduced to what the rest of the flow needs. */
-type Choice = { tierId: number | null; value: number; amount: string; label: string };
+/** Preset and custom amounts both go through the validated donation flow. */
+type Choice = { value: number; amount: string };
 
 /**
  * The "custom amount" row. It is a radio in behaviour, so it sits in the same
@@ -499,7 +499,6 @@ function TierOption({
     <button
       type="button"
       onClick={onSelect}
-      disabled={tier.soldOut}
       aria-pressed={selected}
       style={{
         border: selected ? "1px solid hsl(var(--primary))" : "1px solid hsl(var(--border))",
@@ -508,8 +507,7 @@ function TierOption({
         display: "flex",
         alignItems: "center",
         gap: compact ? 14 : 12,
-        cursor: tier.soldOut ? "not-allowed" : "pointer",
-        opacity: tier.soldOut ? 0.55 : 1,
+        cursor: "pointer",
         background: selected ? "hsl(var(--secondary))" : "hsl(var(--surface))",
         textAlign: "left",
         fontFamily: "inherit",
@@ -536,11 +534,6 @@ function TierOption({
       <span className="numeric" style={{ flex: 1, minWidth: 0, fontSize: 15, fontWeight: 600 }}>
         {tier.amount}
       </span>
-      {tier.soldOut && (
-        <span className="numeric" style={{ fontSize: 12, color: "hsl(var(--muted-foreground))" }}>
-          Sold out
-        </span>
-      )}
     </button>
   );
 }
@@ -630,7 +623,6 @@ function PledgeConfirm({
       >
         {[
           { l: "Your donation", v: choice.amount },
-          { l: "Reward", v: choice.tierId == null ? "No reward — a straight donation" : choice.label },
           { l: "Releases", v: `One stage at a time · ${detail.milestones.length} stages` },
         ].map((row, i, arr) => (
           <div
@@ -653,11 +645,7 @@ function PledgeConfirm({
       </div>
       <form action={action} style={{ display: "flex", flexDirection: "column", gap: 12 }}>
         <input type="hidden" name="campaign" value={detail.slug} />
-        {choice.tierId == null ? (
-          <input type="hidden" name="amount" value={choice.value} />
-        ) : (
-          <input type="hidden" name="tier" value={choice.tierId} />
-        )}
+        <input type="hidden" name="amount" value={choice.value} />
         <FormError message={state.error} />
         <FieldError message={state.fieldErrors?.amount} />
         <SubmitButton className="ms-btn ms-btn--primary ms-btn--lg" style={{ width: "100%" }} pendingLabel="Placing donation…">
@@ -802,10 +790,10 @@ export function CampaignDetailView({ detail, viewer }: { detail: CampaignDetail;
   const choice: Choice | null =
     selectedTier === "custom"
       ? parsedCustom?.ok
-        ? { tierId: null, value: parsedCustom.amount, amount: usd(parsedCustom.amount), label: "Custom amount" }
+        ? { value: parsedCustom.amount, amount: usd(parsedCustom.amount) }
         : null
       : tier
-        ? { tierId: tier.id, value: tier.amountValue, amount: tier.amount, label: tier.label }
+        ? { value: tier.amountValue, amount: tier.amount }
         : null;
   const returnTo = `/campaigns/${detail.slug}`;
   const signInHref = viewer.signedIn ? null : `/signin?next=${encodeURIComponent(returnTo)}`;
