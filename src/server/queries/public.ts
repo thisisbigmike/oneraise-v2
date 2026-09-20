@@ -231,9 +231,9 @@ export async function getCampaignPage(
     "SELECT id, title, body, created_at FROM updates WHERE campaign_id = ? ORDER BY created_at DESC",
     c.id,
   );
-  const backers = all<{ id: number; backer_name: string; amount: number; tier_label: string | null }>(
-    `SELECT p.id, p.backer_name, p.amount, t.label AS tier_label
-     FROM pledges p LEFT JOIN tiers t ON t.id = p.tier_id
+  const backers = all<{ id: number; backer_name: string; amount: number }>(
+    `SELECT p.id, p.backer_name, p.amount
+     FROM pledges p
      WHERE p.campaign_id = ? ORDER BY p.created_at DESC LIMIT 12`,
     c.id,
   );
@@ -309,7 +309,6 @@ export async function getCampaignPage(
       id: b.id,
       initials: initialsOf(b.backer_name),
       name: b.backer_name,
-      tierLabel: b.tier_label ?? "Custom amount",
       amount: usd(b.amount),
     })),
     tiers: tiers.map((t) => {

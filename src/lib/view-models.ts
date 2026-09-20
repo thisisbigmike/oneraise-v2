@@ -98,7 +98,6 @@ export interface Backer {
   id: number;
   initials: string;
   name: string;
-  tierLabel: string;
   amount: string;
 }
 

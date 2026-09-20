@@ -355,8 +355,7 @@ function TabContent({ tab, detail }: { tab: Tab; detail: CampaignDetail }) {
         >
           <Avatar initials={b.initials} size={32} fontSize={12} />
           <span style={{ fontSize: 14, fontWeight: 500, flex: 1 }}>{b.name}</span>
-          <span style={{ fontSize: 13, color: "hsl(var(--muted-foreground))" }}>{b.tierLabel}</span>
-          <span className="numeric" style={{ fontSize: 14, fontWeight: 600, width: 70, textAlign: "right" }}>
+          <span className="numeric" style={{ fontSize: 14, fontWeight: 600, width: 70, flexShrink: 0, textAlign: "right" }}>
             {b.amount}
           </span>
         </div>
